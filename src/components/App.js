@@ -5,6 +5,7 @@ import ProjectList from '../views/ProjectList';
 import Project from '../views/Project';
 import Settings from '../views/Settings';
 import JiraConfig from '../views/JiraConfig';
+import Notifications from '../components/Notifications';
 
 const App = () => {
 	const [projects, setProjects] = useState([]);
@@ -13,6 +14,7 @@ const App = () => {
 	const [currentView, setCurrentView] = useState('projectList');
 	const [previousView, setPreviouseView] = useState(null);
 	const [projectToConfigure, setProjectToConfigure] = useState(null);
+	const [notificationsList, setNotificationsList] = useState([]);
 
 	const apiAuth = {
 		harvestToken: localStorage.getItem('harvestToken'),
@@ -76,45 +78,65 @@ const App = () => {
 
 	if (currentView === 'projectList') {
 		return (
-			<ProjectList
-				projects={projects}
-				setSelectedProject={setSelectedProject}
-				setCurrentView={setCurrentView}
-				setPreviouseView={setPreviouseView}
-			/>
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<ProjectList
+					projects={projects}
+					setSelectedProject={setSelectedProject}
+					setCurrentView={setCurrentView}
+					setPreviouseView={setPreviouseView}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
 		);
 	}
 
 	if (currentView === 'settings') {
 		return (
-			<Settings
-				setCurrentView={setCurrentView}
-				previousView={previousView}
-				setProjectToConfigure={setProjectToConfigure}
-			/>
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<Settings
+					setCurrentView={setCurrentView}
+					previousView={previousView}
+					setProjectToConfigure={setProjectToConfigure}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
 		);
 	}
 
 	if (currentView === 'project') {
 		return (
-			<Project
-				projectData={selectedProject}
-				setSelectedProject={setSelectedProject}
-				runningTask={runningTask}
-				setRunningTask={setRunningTask}
-				setCurrentView={setCurrentView}
-				setPreviouseView={setPreviouseView}
-			/>
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<Project
+					projectData={selectedProject}
+					setSelectedProject={setSelectedProject}
+					runningTask={runningTask}
+					setRunningTask={setRunningTask}
+					setCurrentView={setCurrentView}
+					setPreviouseView={setPreviouseView}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
 		);
 	}
 
 	if (currentView === 'configureJiraProject') {
 		return (
-			<JiraConfig
-				projectToConfigure={projectToConfigure}
-				setProjectToConfigure={setProjectToConfigure}
-				setCurrentView={setCurrentView}
-			/>
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<JiraConfig
+					projectToConfigure={projectToConfigure}
+					setProjectToConfigure={setProjectToConfigure}
+					setCurrentView={setCurrentView}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
 		);
 	}
 }

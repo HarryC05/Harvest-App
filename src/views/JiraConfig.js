@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { getJiraBoard, getJiraColumns, getProject } from "../utils/api";
 
-const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView } ) => {
+const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView, notificationsList, setNotificationsList } ) => {
 	const [jiraColumns, setJiraColumns] = useState(null);
 	const [jiraConfig, setJiraConfig] = useState(JSON.parse(localStorage.getItem('jiraConfig')) || {});
 	const [projectData, setProjectData] = useState({});
@@ -71,6 +71,15 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 					className="save-btn"
 					onClick={() => {
 						localStorage.setItem('jiraConfig', JSON.stringify(jiraConfig));
+						setNotificationsList([
+							...notificationsList,
+							{
+								id: 'jira-config-saved-success',
+								type: 'success',
+								message: 'Jira Configuration Saved',
+								disappearTime: 3000,
+							}
+						]);
 					} }
 				>
 					Save

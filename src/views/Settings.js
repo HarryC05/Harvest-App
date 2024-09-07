@@ -8,7 +8,7 @@ import { getProjects, getJiraProjects } from '../utils/api';
  *
  * These keys will be stored in the local storage and will be automatically set to the input fields
  */
-const Settings = ( { setCurrentView, previousView, setProjectToConfigure } ) => {
+const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notificationsList, setNotificationsList } ) => {
 	const [harvestProjects, setHarvestProjects] = useState([]);
 	const [jiraProjects, setJiraProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
@@ -105,26 +105,30 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure } ) => 
 								<li key={project.id}>
 									<h4>{`${project.name} ${project.code ? `(${project.code})` : ''}`}</h4>
 
-									{ linkedProjects[project.id] && (
-										<button
-											className='configure-btn'
-											onClick={ () => {
-												setCurrentView('configureJiraProject');
-												setProjectToConfigure( {
-													harvest: {
-														id: project.id,
-														name: project.name,
-														code: project.code
-													},
-													jira: {
-														id: linkedProjects[project.id]
-													}
-												} );
-											} }
-										>
-											Configure Jira Project
-										</button>
-									)}
+									{
+										(JSON.parse(localStorage.getItem('linkedProjects')) || {})[project.id] &&
+										linkedProjects[project.id] !== '' &&
+										(
+											<button
+												className='configure-btn'
+												onClick={ () => {
+													setCurrentView('configureJiraProject');
+													setProjectToConfigure( {
+														harvest: {
+															id: project.id,
+															name: project.name,
+															code: project.code
+														},
+														jira: {
+															id: linkedProjects[project.id]
+														}
+													} );
+												} }
+											>
+												Configure Jira Project
+											</button>
+										)
+									}
 
 									{ jiraProjects.length > 0 && (
 										<select
@@ -136,9 +140,9 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure } ) => 
 												const newLinkedProjects = { ...linkedProjects, [project.id]: e.target.value };
 												setLinkedProjects( newLinkedProjects );
 											} }
-											defaultValue={linkedProjects[project.id] || null}
+											defaultValue={linkedProjects[project.id] || ''}
 										>
-											<option value={null}>Select a Jira Project</option>
+											<option value={''}>Select a Jira Project</option>
 											{jiraProjects.map( jiraProject => {return(
 												<option
 													key={jiraProject.id}
@@ -164,6 +168,8 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure } ) => 
 							localStorage.setItem('jiraEmail', document.getElementById('jira-email').value);
 							localStorage.setItem('jiraUrl', document.getElementById('jira-url').value);
 							localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
+							setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
+							setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-sucess', disappearTime: 3000}]);
 						}}
 					>
 						Save

@@ -107,6 +107,9 @@ body {
 	rotate: 180deg;
 }
 
+/**
+ * Settings
+ */
 .save-btn {
 	font-size: inherit;
 	background: none;
@@ -137,4 +140,58 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+/**
+ * Notificaitons
+ */
+.notifications {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-top: 1rem;
+}
+
+.notification {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 1rem;
+}
+
+.notification button {
+	padding: 0;
+	border: none;
+	background: none;
+	display: flex;
+	cursor: pointer;
+}
+
+.notification button svg {
+	padding: 0.25rem;
+}
+
+.notification .notification-message {
+	display: flex;
+	gap: 1rem;
+}
+
+.notification-success {
+	background: #d4edda;
+	border-left: #37914c 7px solid;
+}
+
+.notification-error {
+	background: #f8d7da;
+	border-left: #dc3545 7px solid;
+}
+
+.notification-warning {
+	background: #fff3cd;
+	border-left: #ffc107 7px solid;
+}
+
+.notification-info {
+	background: #cce5ff;
+	border-left: #1976d2 7px solid;
 }

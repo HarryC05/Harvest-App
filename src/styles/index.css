@@ -1,0 +1,140 @@
+body {
+	margin: 0 5rem;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.projects-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	list-style-type: none;
+}
+
+.project {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0.5rem;
+	border: 1px solid #eaeaea;
+	border-radius: 10px;
+	transition: all 0.3s;
+	cursor: pointer;
+	position: relative;
+}
+
+.project button.project-button {
+	padding: 1.25rem;
+	width: 100%;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.project button.fav-button {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	background: none;
+	border: none;
+}
+
+.task {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1.25rem;
+	margin: 0.5rem;
+	border: 1px solid #eaeaea;
+	border-radius: 10px;
+	transition: all 0.3s;
+	cursor: pointer;
+}
+
+.heading {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	justify-content: space-between;
+}
+
+.heading button {
+	font-size: 1.5rem;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 1.5rem;
+	background: none;
+	border: #000 3px solid;
+	cursor: pointer;
+}
+
+.task-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	list-style-type: none;
+}
+
+.noAuth {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.noAuth button {
+	padding: 1rem;
+	background: none;
+	border: 1px solid #000;
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+.noAuth button h3 {
+	margin: 0;
+}
+
+.settings-btn {
+	font-size: 2.5rem;
+}
+
+.back-btn {
+	rotate: 180deg;
+}
+
+.save-btn {
+	font-size: inherit;
+	background: none;
+	border-radius: 999px;
+	padding: 0.5rem;
+	border: #000 3px solid;
+	margin-top: 0.5rem;
+	cursor: pointer;
+	grid-column: 1 / span 2;
+}
+
+#settings {
+	justify-content: start;
+}
+
+#settings .main {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	gap: 2rem;
+	margin-bottom: 3rem;
+}
+
+#settings ul.project-list {
+	list-style: none;
+}
+
+#settings ul.project-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}

@@ -195,3 +195,99 @@ body {
 	background: #cce5ff;
 	border-left: #1976d2 7px solid;
 }
+
+.jira-current-sprint {
+	display: grid;
+	list-style: none;
+	padding: 0;
+	overflow: scroll;
+	gap: 0.5rem;
+}
+
+.jira-current-sprint>li {
+	background-color: #f5f5f5;
+	border-radius: 10px;
+}
+
+.jira-current-sprint h4 {
+	padding: 0 0.5rem;
+}
+
+.jira-current-sprint-column {
+	padding: 0;
+}
+
+.jira-current-sprint-column li.task {
+	background-color: #fff;
+	align-items: normal;
+	padding: 0.75rem;
+	overflow-wrap: anywhere;
+}
+
+.jira-current-sprint-column li.task .jira-ticket-key {
+	font-size: 0.75rem;
+	background: #333;
+	color: white;
+	width: max-content;
+	padding: 0.25rem 0.5rem;
+	border-radius: 999px;
+	margin-bottom: 0.25rem;
+}
+
+.jira-current-sprint-column li.task .jira-ticket-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 0.25rem;
+}
+
+.jira-current-sprint-column li.task .jira-ticket-assignee {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.jira-current-sprint-column li.task .jira-ticket-assignee img {
+	width: 2rem;
+	border-radius: 999px;
+}
+
+.jira-current-sprint-column li.task .jira-priority-1 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #dc143c;
+}
+
+.jira-current-sprint-column li.task .jira-priority-2 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #e15a75;
+}
+
+.jira-current-sprint-column li.task .jira-priority-3 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #f5b236;
+}
+
+.jira-current-sprint-column li.task .jira-priority-4 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #6d9bd2;
+}
+
+.jira-current-sprint-column li.task .jira-priority-5 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #106cdc;
+}

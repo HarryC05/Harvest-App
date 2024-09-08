@@ -171,3 +171,35 @@ export const getJiraColumns = async (boardId) => {
 
 	return data?.columnConfig.columns;
 };
+
+// JIRA API: Get the current sprint
+export const getCurrentSprint = async (boardId) => {
+	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
+			return [];
+	}
+
+	const response = await fetch(`/rest/agile/1.0/board/${boardId}/sprint?state=active`, {
+			method: 'GET',
+			headers: headers.jira,
+	});
+
+	const data = await response.json();
+
+	return data?.values[0];
+};
+
+// JIRA API: Get tickets for a sprint
+export const getSprintTickets = async (sprintId) => {
+	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
+			return [];
+	}
+
+	const response = await fetch(`/rest/agile/1.0/sprint/${sprintId}/issue?maxResults=100`, {
+			method: 'GET',
+			headers: headers.jira,
+	});
+
+	const data = await response.json();
+
+	return data?.issues;
+};

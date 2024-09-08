@@ -31,7 +31,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 	}
 
 	const onTaskClick = async (task, note = '') => {
-		if (runningTask && runningTask.task_id === task.task.id && runningTask.project_id === projectData.project.id) {
+		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;
@@ -137,7 +137,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 						{loadingTickets && <p>Loading...</p>}
 						<ul
 							className='jira-current-sprint'
-							style={{ gridTemplateColumns: `repeat(${jiraColumns.length}, 19.5%)` }}
+							style={{ gridTemplateColumns: `repeat(${jiraColumns.length}, 19%)` }}
 						>
 							{jiraColumns.map((column) => (
 								<li key={column.id}>

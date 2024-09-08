@@ -291,3 +291,21 @@ body {
 	font-size: 1.5rem;
 	color: #106cdc;
 }
+
+.jira-current-sprint-header {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.jira-current-sprint-header h3 {
+	margin: 0;
+}
+
+.jira-current-sprint-header .jira-current-sprint-refresh-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	font-size: 1.5rem;
+}

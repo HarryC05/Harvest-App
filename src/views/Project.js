@@ -3,15 +3,17 @@ import { useState, useEffect } from 'react';
 import Timer from '../components/Timer';
 import { startTimer, stopTimer, getJiraBoard, getCurrentSprint, getSprintTickets, getJiraColumns } from '../utils/api';
 
-const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviouseView }) => {
+const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviouseView, notificationsList, setNotificationsList }) => {
 	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
 	const jiraConfig = JSON.parse(localStorage.getItem('jiraConfig')) || {};
+	const jiraEmail = localStorage.getItem('jiraEmail');
 	const [jiraProject, setJiraProject] = useState(null);
 	const [sprintTickets, setSprintTickets] = useState([]);
 	const [jiraColumns, setJiraColumns] = useState([]);
 	const [loadingTickets, setLoadingTickets] = useState(false);
+	const [assignee, setAssignee] = useState('all');
 
-	const getTickets = async () => {
+	const fetchCurrentSprintTickets = async () => {
 		setLoadingTickets(true);
 
 		const board = await getJiraBoard(linkedProjects[projectData.project.id]);
@@ -27,12 +29,6 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 		const columns = await getJiraColumns(board.id);
 		setJiraColumns(columns);
 	}
-
-	useEffect(() => {
-		if (linkedProjects[projectData.project.id]) {
-			getTickets();
-		}
-	}, []);
 
 	const onTaskClick = async (task, note = '') => {
 		if (runningTask && runningTask.task_id === task.task.id && runningTask.project_id === projectData.project.id) {
@@ -59,6 +55,25 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 			notes: note
 		 });
 	}
+
+	const reloadCurrentSprintTickets = async () => {
+		await fetchCurrentSprintTickets();
+
+		setNotificationsList([
+			...notificationsList,
+			{
+				type: 'success',
+				message: 'Current sprint tickets reloaded',
+				disappearTime: 3000,
+			}
+		]);
+	}
+
+	useEffect(() => {
+		if (linkedProjects[projectData.project.id]) {
+			fetchCurrentSprintTickets();
+		}
+	}, []);
 
 	return (
 		<div>
@@ -101,7 +116,20 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 				{linkedProjects[projectData.project.id] && (
 					<div className='linked-projects'>
 						<h2>JIRA Tickets</h2>
-						<h3>Current Sprint</h3>
+						<div className='jira-current-sprint-header'>
+							<h3>Current Sprint</h3>
+							<select
+								value={assignee}
+								onChange={(e) => setAssignee(e.target.value)}
+							>
+								<option value='all'>All</option>
+								<option value={jiraEmail}>My Tickets</option>
+							</select>
+							<button
+								onClick={reloadCurrentSprintTickets}
+								className='jira-current-sprint-refresh-btn'
+							>↻</button>
+						</div>
 						{loadingTickets && <p>Loading...</p>}
 						<ul
 							className='jira-current-sprint'
@@ -111,39 +139,43 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 								<li key={column.id}>
 									<h4>{column.name}</h4>
 									<ul className='jira-current-sprint-column'>
-										{sprintTickets.filter((ticket) => column.statuses.some((status) => status.id === ticket.fields.status.id)).map((ticket) => (
-											<li
-												key={ticket.id}
-												className={`task ${runningTask && runningTask.notes === `${ticket.key}: ${ticket.fields.summary}` ? 'running' : ''}`}
-												onClick={() => onTaskClick(
-													{
-														task: {
-															id: jiraConfig[projectData.project.id]?.[column.name] || projectData.task_assignments[0].task.id
-														}
-													},
-													`${ticket.key}: ${ticket.fields.summary}`,
-												)}
-											>
-												<span className='jira-ticket-key'>
-													{ticket.key}
-												</span>
-												{ticket.fields.summary}
-												{runningTask && runningTask.notes === `${ticket.key}: ${ticket.fields.summary}` && <Timer start={runningTask.timer_started_at} />}
-												<div className='jira-ticket-footer'>
-													<span className='jira-ticket-assignee'>
-														<img src={ticket.fields.assignee?.avatarUrls['48x48']} alt={ticket.fields.assignee?.displayName} />
-														{ticket.fields.assignee?.displayName || 'Unassigned'}
+										{sprintTickets
+											.filter((ticket) => assignee === 'all' || ticket.fields.assignee?.emailAddress === jiraEmail)
+											.filter((ticket) => column.statuses.some((status) => status.id === ticket.fields.status.id))
+											.map((ticket) => (
+												<li
+													key={ticket.id}
+													className={`task ${runningTask && runningTask.notes === `${ticket.key}: ${ticket.fields.summary}` ? 'running' : ''}`}
+													onClick={() => onTaskClick(
+														{
+															task: {
+																id: jiraConfig[projectData.project.id]?.[column.name] || projectData.task_assignments[0].task.id
+															}
+														},
+														`${ticket.key}: ${ticket.fields.summary}`,
+													)}
+												>
+													<span className='jira-ticket-key'>
+														{ticket.key}
 													</span>
-													<span className={`jira-ticket-priority jira-priority-${ticket.fields.priority.id}`}>
-														{ticket.fields.priority.id === '1' && '«'}
-														{ticket.fields.priority.id === '2' && '‹'}
-														{ticket.fields.priority.id === '3' && '᱿'}
-														{ticket.fields.priority.id === '4' && '›'}
-														{ticket.fields.priority.id === '5' && '»'}
-													</span>
-												</div>
-											</li>
-										))}
+													{ticket.fields.summary}
+													{runningTask && runningTask.notes === `${ticket.key}: ${ticket.fields.summary}` && <Timer start={runningTask.timer_started_at} />}
+													<div className='jira-ticket-footer'>
+														<span className='jira-ticket-assignee'>
+															<img src={ticket.fields.assignee?.avatarUrls['48x48']} alt={ticket.fields.assignee?.displayName} />
+															{ticket.fields.assignee?.displayName || 'Unassigned'}
+														</span>
+														<span className={`jira-ticket-priority jira-priority-${ticket.fields.priority.id}`}>
+															{ticket.fields.priority.id === '1' && '«'}
+															{ticket.fields.priority.id === '2' && '‹'}
+															{ticket.fields.priority.id === '3' && '᱿'}
+															{ticket.fields.priority.id === '4' && '›'}
+															{ticket.fields.priority.id === '5' && '»'}
+														</span>
+													</div>
+												</li>
+											)
+										)}
 									</ul>
 								</li>
 							))}

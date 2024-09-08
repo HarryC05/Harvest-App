@@ -14,28 +14,7 @@ const App = () => {
 	const [currentView, setCurrentView] = useState('projectList');
 	const [previousView, setPreviouseView] = useState(null);
 	const [projectToConfigure, setProjectToConfigure] = useState(null);
-	const [notificationsList, setNotificationsList] = useState([
-		{
-			id: 1,
-			message: 'Info',
-			type: 'info'
-		},
-		{
-			id: 2,
-			message: 'Warning',
-			type: 'warning'
-		},
-		{
-			id: 3,
-			message: 'Error',
-			type: 'error'
-		},
-		{
-			id: 4,
-			message: 'Success',
-			type: 'success'
-		},
-	]);
+	const [notificationsList, setNotificationsList] = useState([]);
 
 	const apiAuth = {
 		harvestToken: localStorage.getItem('harvestToken'),

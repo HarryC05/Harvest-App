@@ -39,6 +39,19 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 		setJiraProjects( formattedJiraProjects );
 	}
 
+	const onSave = () => {
+		localStorage.setItem('harvestToken', document.getElementById('harvest-token').value);
+		localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
+		localStorage.setItem('jiraToken', document.getElementById('jira-token').value);
+		localStorage.setItem('jiraEmail', document.getElementById('jira-email').value);
+		localStorage.setItem('jiraUrl', document.getElementById('jira-url').value);
+		localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
+		setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
+		setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-success', disappearTime: 3000}]);
+		// refresh the page
+		window.location.reload();
+	}
+
 	useEffect( () => {
 		getProjectData();
 	}, [] );
@@ -161,16 +174,7 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 
 				<button
 						className="save-btn"
-						onClick={() => {
-							localStorage.setItem('harvestToken', document.getElementById('harvest-token').value);
-							localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
-							localStorage.setItem('jiraToken', document.getElementById('jira-token').value);
-							localStorage.setItem('jiraEmail', document.getElementById('jira-email').value);
-							localStorage.setItem('jiraUrl', document.getElementById('jira-url').value);
-							localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
-							setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
-							setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-sucess', disappearTime: 3000}]);
-						}}
+						onClick={onSave}
 					>
 						Save
 					</button>

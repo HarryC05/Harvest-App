@@ -118,16 +118,20 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 						<h2>JIRA Tickets</h2>
 						<div className='jira-current-sprint-header'>
 							<h3>Current Sprint</h3>
-							<select
-								value={assignee}
-								onChange={(e) => setAssignee(e.target.value)}
-							>
-								<option value='all'>All</option>
-								<option value={jiraEmail}>My Tickets</option>
-							</select>
+							<div className='jira-current-sprint-assignee'>
+								<label>Assignee:</label>
+								<select
+									value={assignee}
+									onChange={(e) => setAssignee(e.target.value)}
+								>
+									<option value='all'>All</option>
+									<option value={jiraEmail}>My Tickets</option>
+								</select>
+							</div>
 							<button
 								onClick={reloadCurrentSprintTickets}
 								className='jira-current-sprint-refresh-btn'
+								title='Reload current sprint tickets'
 							>↻</button>
 						</div>
 						{loadingTickets && <p>Loading...</p>}

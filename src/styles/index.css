@@ -1,3 +1,7 @@
+:root {
+	color-scheme: light dark;
+}
+
 body {
 	margin: 0 5rem;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,7 +23,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	margin: 0.5rem;
-	border: 1px solid #eaeaea;
+	border: 1px solid light-dark(#eaeaea, #666);
 	border-radius: 10px;
 	transition: all 0.3s;
 	cursor: pointer;
@@ -49,7 +53,7 @@ body {
 	justify-content: center;
 	padding: 1.25rem;
 	margin: 0.5rem;
-	border: 1px solid #eaeaea;
+	border: 1px solid light-dark(#eaeaea, #666);
 	border-radius: 10px;
 	transition: all 0.3s;
 	cursor: pointer;
@@ -68,7 +72,7 @@ body {
 	height: 3rem;
 	border-radius: 1.5rem;
 	background: none;
-	border: #000 3px solid;
+	border: light-dark(#000, #fff) 3px solid;
 	cursor: pointer;
 }
 
@@ -90,7 +94,7 @@ body {
 .noAuth button {
 	padding: 1rem;
 	background: none;
-	border: 1px solid #000;
+	border: 1px solid light-dark(#000, #fff);
 	border-radius: 999px;
 	cursor: pointer;
 }
@@ -115,7 +119,7 @@ body {
 	background: none;
 	border-radius: 999px;
 	padding: 0.5rem;
-	border: #000 3px solid;
+	border: light-dark(#000, #fff) 3px solid;
 	margin-top: 0.5rem;
 	cursor: pointer;
 	grid-column: 1 / span 2;
@@ -177,24 +181,28 @@ body {
 }
 
 .notification-success {
-	background: #d4edda;
+	background: light-dark(#d4edda, #74ca89);
 	border-left: #37914c 7px solid;
 }
 
 .notification-error {
-	background: #f8d7da;
+	background: light-dark(#f8d7da, #fa9ca4);
 	border-left: #dc3545 7px solid;
 }
 
 .notification-warning {
-	background: #fff3cd;
+	background: light-dark(#fff3cd, #f2d67a);
 	border-left: #ffc107 7px solid;
 }
 
 .notification-info {
-	background: #cce5ff;
+	background: light-dark(#cce5ff, #86bff9);
 	border-left: #1976d2 7px solid;
 }
+
+/**
+ * Jira
+ */
 
 .jira-current-sprint {
 	display: grid;
@@ -205,7 +213,7 @@ body {
 }
 
 .jira-current-sprint>li {
-	background-color: #f5f5f5;
+	background-color: light-dark(#f5f5f5, #333);
 	border-radius: 10px;
 }
 
@@ -218,7 +226,8 @@ body {
 }
 
 .jira-current-sprint-column li.task {
-	background-color: #fff;
+	background-color: light-dark(#fff, #121212);
+	border-color: light-dark(#eaeaea, #666);
 	align-items: normal;
 	padding: 0.75rem;
 	overflow-wrap: anywhere;
@@ -227,7 +236,7 @@ body {
 .jira-current-sprint-column li.task .jira-ticket-key {
 	font-size: 0.75rem;
 	background: #333;
-	color: white;
+	color: #fff;
 	width: max-content;
 	padding: 0.25rem 0.5rem;
 	border-radius: 999px;
@@ -308,4 +317,10 @@ body {
 	cursor: pointer;
 	padding: 0;
 	font-size: 1.5rem;
+}
+
+.jira-current-sprint-assignee {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }

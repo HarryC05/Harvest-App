@@ -30,7 +30,7 @@ Harvest App allows you to manage and track time efficiently with a clean user in
     ```sh
     yarn start
     ```
-5. Open the site in your browser at `https://localhost:3000`.
+5. Open the site in your browser at [`https://localhost:3000`](https://localhost:3000).
 
 
 ## Setup

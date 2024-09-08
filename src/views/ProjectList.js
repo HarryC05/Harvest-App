@@ -51,7 +51,7 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 										className="fav-button"
 										onClick={() => favourite(project.project.id)}
 									>
-										❤️
+										★
 									</button>
 								</li>
 							)
@@ -83,9 +83,7 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 							<button
 								className="fav-button"
 								onClick={() => favourite(project.project.id)}
-							>
-								{JSON.parse(localStorage.getItem('favourites') || '[]').includes(project.project.id) ? '❤️' : '♡'}
-							</button>
+							>☆</button>
 						</li>
 					)
 				})}

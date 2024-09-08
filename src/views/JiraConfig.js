@@ -48,7 +48,8 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 			</div>
 			<div className="main">
 				<h2>Columns</h2>
-				<ul>
+				<p>Link each column in the Jira board to a task from harvest, so that when you start a timer for a ticket the correct task is started in Harvest.</p>
+				<ul className="jira-config-columns">
 					{jiraColumns && jiraColumns.map(column => (
 						<li key={column.statuses[0].id}>
 							{column.name}

@@ -18,6 +18,15 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		setProjectData(project);
 	}
 
+	const onChange = (e, column) => {
+		const newJiraConfig = {...jiraConfig};
+		newJiraConfig[projectToConfigure.harvest.id] = {
+			...newJiraConfig[projectToConfigure.harvest.id],
+			[column]: e.target.value
+		};
+		setJiraConfig(newJiraConfig);
+	};
+
 	useEffect(() => {
 		fetchJiraBoard();
 		fetchProjectData();
@@ -40,21 +49,14 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 			<div className="main">
 				<h2>Columns</h2>
 				<ul>
-					{jiraColumns && jiraColumns.map(column => {console.log(column);return(
+					{jiraColumns && jiraColumns.map(column => (
 						<li key={column.statuses[0].id}>
 							{column.name}
 							<select
 								value={jiraConfig[projectToConfigure.harvest.id]?.[column.name] || null}
-								onChange={(e) => {
-									setJiraConfig({
-										...jiraConfig,
-										[projectToConfigure.harvest.id]: {
-											[column.name]: e.target.value
-										}
-									});
-								}}
+								onChange={(e) => onChange(e, column.name)}
 							>
-								<option value={null}>None</option>
+								<option value={''}>None</option>
 								{projectData?.task_assignments.map(task => (
 									<option
 										value={task.task.id}
@@ -65,7 +67,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 								))}
 							</select>
 						</li>
-					)})}
+					))}
 				</ul>
 				<button
 					className="save-btn"

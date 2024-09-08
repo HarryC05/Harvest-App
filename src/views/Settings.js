@@ -48,6 +48,7 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 		localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
 		setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
 		setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-success', disappearTime: 3000}]);
+
 		// refresh the page to get the new data if the user has changed the api keys
 		if (
 			document.getElementById('harvest-token').value !== localStorage.getItem('harvestToken')

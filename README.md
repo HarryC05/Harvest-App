@@ -9,7 +9,6 @@ Harvest App allows you to manage and track time efficiently with a clean user in
 		- [Basic](#basic)
 		- [Jira Integration](#jira-integration)
 	- [Contributing](#contributing)
-	- [License](#license)
 
 
 ## Installation
@@ -83,8 +82,3 @@ When all your boards are configure, you will now be able to click into a project
 2. Commit your changes (`git commit -m 'Add some feature'`).
 3. Push to the branch (`git push origin feature/your-feature-name`).
 4. Open a pull request.
-
-
-## License
-
-This project is licensed under the MIT License.

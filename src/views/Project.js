@@ -69,11 +69,30 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 		]);
 	}
 
+	// Poll for new tickets every 10 seconds
+	const pollTimer = async () => {
+		if (linkedProjects[projectData.project.id]) {
+			await fetchCurrentSprintTickets();
+		}
+
+		setTimeout(pollTimer, 10000);
+	}
+
 	useEffect(() => {
 		if (linkedProjects[projectData.project.id]) {
 			fetchCurrentSprintTickets();
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (localStorage.getItem('harvestToken') && localStorage.getItem('harvestAccountId')) {
+				pollTimer();
+			}
+		} , 10000);
+
+		return () => clearInterval(interval);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div>

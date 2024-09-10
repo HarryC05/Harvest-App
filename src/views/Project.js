@@ -30,8 +30,8 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 		setJiraColumns(columns);
 	}
 
-	const onTaskClick = async (task, note = '') => {
-		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id) {
+	const onTaskClick = async (task, note = null) => {
+		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && (note !== null && runningTask.notes === note)) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;

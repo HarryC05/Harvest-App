@@ -69,11 +69,30 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 		]);
 	}
 
+	// Poll for new tickets every 10 seconds
+	const pollTimer = async () => {
+		if (linkedProjects[projectData.project.id]) {
+			await fetchCurrentSprintTickets();
+		}
+
+		setTimeout(pollTimer, 15000);
+	}
+
 	useEffect(() => {
 		if (linkedProjects[projectData.project.id]) {
 			fetchCurrentSprintTickets();
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (localStorage.getItem('harvestToken') && localStorage.getItem('harvestAccountId')) {
+				pollTimer();
+			}
+		} , 15000);
+
+		return () => clearInterval(interval);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div>
@@ -133,8 +152,8 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 								className='jira-current-sprint-refresh-btn'
 								title='Reload current sprint tickets'
 							>↻</button>
+							{loadingTickets && <div id='spinner' title='Loading...' />}
 						</div>
-						{loadingTickets && <p>Loading...</p>}
 						<ul
 							className='jira-current-sprint'
 							style={{ gridTemplateColumns: `repeat(${jiraColumns.length}, 19%)` }}

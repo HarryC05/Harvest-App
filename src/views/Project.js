@@ -75,7 +75,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 			await fetchCurrentSprintTickets();
 		}
 
-		setTimeout(pollTimer, 10000);
+		setTimeout(pollTimer, 15000);
 	}
 
 	useEffect(() => {
@@ -89,7 +89,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 			if (localStorage.getItem('harvestToken') && localStorage.getItem('harvestAccountId')) {
 				pollTimer();
 			}
-		} , 10000);
+		} , 15000);
 
 		return () => clearInterval(interval);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps

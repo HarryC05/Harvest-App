@@ -152,8 +152,8 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 								className='jira-current-sprint-refresh-btn'
 								title='Reload current sprint tickets'
 							>↻</button>
+							{loadingTickets && <div id='spinner' title='Loading...' />}
 						</div>
-						{loadingTickets && <p>Loading...</p>}
 						<ul
 							className='jira-current-sprint'
 							style={{ gridTemplateColumns: `repeat(${jiraColumns.length}, 19%)` }}

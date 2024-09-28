@@ -121,13 +121,3 @@ const JiraProfile = ( {
 }
 
 export default JiraProfile;
-
-/**
- * Profile should have the following fields:
- * - nickname
- * - jiraUrl
- * - jiraEmail
- * - jiraToken
- * - jiraAccountId
- * - avatarUrl
- */

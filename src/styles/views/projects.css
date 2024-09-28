@@ -1,0 +1,38 @@
+/**
+ * Projects
+ */
+
+.projects-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	list-style-type: none;
+}
+
+.project {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0.5rem;
+	border: 1px solid light-dark(#eaeaea, #666);
+	border-radius: 10px;
+	transition: all 0.3s;
+	cursor: pointer;
+	position: relative;
+}
+
+.project button.project-button {
+	padding: 1.25rem;
+	width: 100%;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.project button.fav-button {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	background: none;
+	border: none;
+}

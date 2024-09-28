@@ -1,0 +1,53 @@
+/**
+ * Settings Styles
+ */
+#settings {
+	justify-content: start;
+}
+
+#settings .main {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	gap: 2rem;
+	margin-bottom: 3rem;
+}
+
+/* Project List Styles */
+#settings ul.project-list {
+	list-style: none;
+	padding: 0;
+}
+
+#settings ul.project-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* Profile Styles */
+.jira-profile-list {
+	list-style: none;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	padding: 0;
+}
+
+.profile-btn {
+	display: grid;
+	background: none;
+	border: none;
+	gap: 0.25rem;
+	align-items: center;
+	cursor: pointer;
+	justify-content: center;
+}
+
+.profile-btn img {
+	border-radius: 999px;
+	justify-self: center;
+}
+
+.add-profile span{
+	font-size: 2.6rem;
+}

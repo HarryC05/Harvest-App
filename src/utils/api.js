@@ -203,3 +203,21 @@ export const getSprintTickets = async (sprintId) => {
 
 	return data?.issues;
 };
+
+// JIRA API: Get profile
+export const getProfile = async ( {url, email, token} ) => {
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
+	}
+
+	// set the priority of the request to be as high as possible
+	const response = await fetch('/rest/api/3/myself', {
+			method: 'GET',
+			headers: header,
+	});
+
+	return response;
+};

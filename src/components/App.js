@@ -6,6 +6,7 @@ import Project from '../views/Project';
 import Settings from '../views/Settings';
 import JiraConfig from '../views/JiraConfig';
 import Notifications from '../components/Notifications';
+import JiraProfile from '../views/JiraProfile';
 
 const App = () => {
 	const [projects, setProjects] = useState([]);
@@ -15,6 +16,7 @@ const App = () => {
 	const [previousView, setPreviouseView] = useState(null);
 	const [projectToConfigure, setProjectToConfigure] = useState(null);
 	const [notificationsList, setNotificationsList] = useState([]);
+	const [currentProfile, setCurrentProfile] = useState(null);
 
 	const apiAuth = {
 		harvestToken: localStorage.getItem('harvestToken'),
@@ -102,6 +104,7 @@ const App = () => {
 					setProjectToConfigure={setProjectToConfigure}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
+					setCurrentProfile={setCurrentProfile}
 				/>
 			</>
 		);
@@ -133,6 +136,21 @@ const App = () => {
 					projectToConfigure={projectToConfigure}
 					setProjectToConfigure={setProjectToConfigure}
 					setCurrentView={setCurrentView}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
+		);
+	}
+
+	if (currentView === 'jiraProfile') {
+		return (
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<JiraProfile
+					setCurrentView={setCurrentView}
+					currentProfile={currentProfile}
+					setCurrentProfile={setCurrentProfile}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>

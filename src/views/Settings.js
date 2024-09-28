@@ -8,10 +8,18 @@ import { getProjects, getJiraProjects } from '../utils/api';
  *
  * These keys will be stored in the local storage and will be automatically set to the input fields
  */
-const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notificationsList, setNotificationsList } ) => {
+const Settings = ( {
+	setCurrentView,
+	previousView,
+	setProjectToConfigure,
+	notificationsList,
+	setNotificationsList,
+	setCurrentProfile,
+} ) => {
 	const [harvestProjects, setHarvestProjects] = useState([]);
 	const [jiraProjects, setJiraProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
+	const [jiraProfiles, setJiraProfiles] = useState(JSON.parse(localStorage.getItem('jiraProfiles')) || []);
 
 	const getProjectData = async () => {
 		const harvestProjectsResp = await getProjects();
@@ -26,7 +34,8 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 
 		setHarvestProjects( formattedHarvestProjects );
 
-		const jiraProjectsResp = await getJiraProjects();
+		// const jiraProjectsResp = await getJiraProjects();
+		const jiraProjectsResp = [];
 
 		const formattedJiraProjects = jiraProjectsResp.map( project => {
 			return {
@@ -42,9 +51,6 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 	const onSave = () => {
 		localStorage.setItem('harvestToken', document.getElementById('harvest-token').value);
 		localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
-		localStorage.setItem('jiraToken', document.getElementById('jira-token').value);
-		localStorage.setItem('jiraEmail', document.getElementById('jira-email').value);
-		localStorage.setItem('jiraUrl', document.getElementById('jira-url').value);
 		localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
 		setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
 		setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-success', disappearTime: 3000}]);
@@ -53,9 +59,7 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 		if (
 			document.getElementById('harvest-token').value !== localStorage.getItem('harvestToken')
 			|| document.getElementById('harvest-account-id').value !== localStorage.getItem('harvestAccountId')
-			|| document.getElementById('jira-token').value !== localStorage.getItem('jiraToken')
-			|| document.getElementById('jira-email').value !== localStorage.getItem('jiraEmail')
-			|| document.getElementById('jira-url').value !== localStorage.getItem('jiraUrl') ) {
+		) {
 			window.location.reload();
 		}
 	}
@@ -80,43 +84,54 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 			<div className="main">
 				<div className="api-keys">
 					<h2>API Keys</h2>
-					<h3>Harvest</h3>
-					<h4>Harvest API Token</h4>
-					<input
-						type='text'
-						id='harvest-token'
-						defaultValue={localStorage.getItem('harvestToken')}
-						size={75}
-					/>
-					<h4>Harvest Account ID</h4>
-					<input
-						type='text'
-						id='harvest-account-id'
-						defaultValue={localStorage.getItem('harvestAccountId')}
-						size={50}
-					/>
-					<h3>Jira</h3>
-					<h4>Jira API Token</h4>
-					<input
-						type='text'
-						id='jira-token'
-						defaultValue={localStorage.getItem('jiraToken')}
-						size={75}
-					/>
-					<h4>Jira Email</h4>
-					<input
-						type='text'
-						id='jira-email'
-						defaultValue={localStorage.getItem('jiraEmail')}
-						size={50}
-					/>
-					<h4>Jira URL</h4>
-					<input
-						type='text'
-						id='jira-url'
-						defaultValue={localStorage.getItem('jiraUrl')}
-						size={50}
-					/>
+					<div className='harvest-api-inputs'>
+						<h3>Harvest</h3>
+						<h4>Harvest API Token</h4>
+						<input
+							type='text'
+							id='harvest-token'
+							defaultValue={localStorage.getItem('harvestToken')}
+							size={75}
+						/>
+						<h4>Harvest Account ID</h4>
+						<input
+							type='text'
+							id='harvest-account-id'
+							defaultValue={localStorage.getItem('harvestAccountId')}
+							size={50}
+						/>
+					</div>
+					<div className='jira-api-inputs'>
+						<h3>Jira Profiles</h3>
+						<ul className='jira-profile-list'>
+							{jiraProfiles.map( profile => (
+								<li key={profile.id}>
+									<button
+										className='profile-btn'
+										onClick={ () => {
+											setCurrentView('jiraProfile');
+											setCurrentProfile( profile );
+										} }
+									>
+										{profile.avatarUrl && <img src={profile.avatarUrl} alt={profile.name} width='48' height='48' />}
+										{profile.name}
+									</button>
+								</li>
+							))}
+							<li key='add-profile'>
+								<button
+									className='profile-btn add-profile'
+									onClick={() => {
+										setCurrentView('jiraProfile');
+										setCurrentProfile( {} );
+									}}
+								>
+									<span role='img' aria-label='add'>+</span>
+									Add Profile
+								</button>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div className="Projects">
 					<h2>Harvest Projects</h2>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviouseView } ) => {
+const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviousView } ) => {
 	const [ favourites, setFavourites ] = useState(JSON.parse(localStorage.getItem('favourites')) || []);
 
 	const favourite = (id) => {
@@ -21,7 +21,7 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 				<button
 					onClick={() => {
 						setCurrentView('settings');
-						setPreviouseView('projectList');
+						setPreviousView('projectList');
 					}}
 				>
 					⚙

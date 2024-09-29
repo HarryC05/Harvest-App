@@ -13,7 +13,7 @@ const App = () => {
 	const [selectedProject, setSelectedProject] = useState(null);
 	const [runningTask, setRunningTask] = useState(null);
 	const [currentView, setCurrentView] = useState('projectList');
-	const [previousView, setPreviouseView] = useState(null);
+	const [previousView, setPreviousView] = useState(null);
 	const [projectToConfigure, setProjectToConfigure] = useState(null);
 	const [notificationsList, setNotificationsList] = useState([]);
 	const [currentProfile, setCurrentProfile] = useState(null);
@@ -86,7 +86,7 @@ const App = () => {
 					projects={projects}
 					setSelectedProject={setSelectedProject}
 					setCurrentView={setCurrentView}
-					setPreviouseView={setPreviouseView}
+					setPreviousView={setPreviousView}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>
@@ -120,7 +120,7 @@ const App = () => {
 					runningTask={runningTask}
 					setRunningTask={setRunningTask}
 					setCurrentView={setCurrentView}
-					setPreviouseView={setPreviouseView}
+					setPreviousView={setPreviousView}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>

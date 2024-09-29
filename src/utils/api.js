@@ -126,17 +126,24 @@ export const getLastTimer = async () => {
 }
 
 // JIRA API: Get all projects
-export const getJiraProjects = async () => {
-	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
+export const getJiraProjects = async ( {token, email, url} ) => {
+	if (!token || !email || !url) {
 			return [];
+	}
+
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
 	}
 
 	const response = await fetch('/rest/api/3/project', {
 			method: 'GET',
-			headers: headers.jira,
+			headers: header,
 	});
 
-	return await response.json();
+	return response;
 };
 
 

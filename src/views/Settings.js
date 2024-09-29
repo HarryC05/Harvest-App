@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { getProjects, getJiraProjects } from '../utils/api';
+import PillBox from '../components/PillBox';
 
 /**
  * Settings page to set the harvest api token and key,
@@ -20,6 +21,7 @@ const Settings = ( {
 	const [jiraProjects, setJiraProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
 	const [jiraProfiles, setJiraProfiles] = useState(JSON.parse(localStorage.getItem('jiraProfiles')) || []);
+	const [pillSuggestions, setPillSuggestions] = useState([]);
 
 	const getProjectData = async () => {
 		const harvestProjectsResp = await getProjects();
@@ -34,10 +36,36 @@ const Settings = ( {
 
 		setHarvestProjects( formattedHarvestProjects );
 
-		// const jiraProjectsResp = await getJiraProjects();
-		const jiraProjectsResp = [];
+		if ( jiraProfiles.length === 0 ) {
+			return;
+		}
 
-		const formattedJiraProjects = jiraProjectsResp.map( project => {
+		const tempJiraProjects = [];
+
+		for (const profile of jiraProfiles) {
+			const resp = await getJiraProjects( profile );
+
+			// check if the response has an error
+			if ( ! resp.ok ) {
+				// show error message
+				setNotificationsList([
+					...notificationsList,
+					{
+						type: 'error',
+						message: `Error getting Jira projects for ${profile.name} profile`,
+						id: 'error-getting-jira-projects',
+						disappearTime: 3000
+					}
+				]);
+				return;
+			}
+
+			const data = await resp.json();
+
+			tempJiraProjects.push( ...data );
+		};
+
+		const formattedJiraProjects = tempJiraProjects.map( project => {
 			return {
 				id: project.id,
 				name: project.name,
@@ -45,7 +73,12 @@ const Settings = ( {
 			}
 		} );
 
+		const suggestions = tempJiraProjects.map( project => {
+			return `${project.name} (${project.key})`;
+		} );
+
 		setJiraProjects( formattedJiraProjects );
+		setPillSuggestions( suggestions );
 	}
 
 	const onSave = () => {
@@ -165,8 +198,8 @@ const Settings = ( {
 											</button>
 										)
 									}
-
-									{ jiraProjects.length > 0 && (
+									<PillBox suggestions={pillSuggestions} />
+									{/* { jiraProjects.length > 0 && (
 										<select
 											onChange={ ( e ) => {
 												if ( e.target.value === linkedProjects[project.id] ) {
@@ -188,7 +221,7 @@ const Settings = ( {
 												</option>
 											)})}
 										</select>
-									) }
+									) } */}
 								</li>
 							)})}
 						</ul>

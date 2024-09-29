@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Timer from '../components/Timer';
 import { startTimer, stopTimer, getJiraBoard, getCurrentSprint, getSprintTickets, getJiraColumns } from '../utils/api';
 
-const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviouseView, notificationsList, setNotificationsList }) => {
+const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviousView, notificationsList, setNotificationsList }) => {
 	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
 	const jiraConfig = JSON.parse(localStorage.getItem('jiraConfig')) || {};
 	const jiraEmail = localStorage.getItem('jiraEmail');
@@ -111,7 +111,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 					className='settings-btn'
 					onClick={() => {
 						setCurrentView('settings');
-						setPreviouseView('project');
+						setPreviousView('project');
 					}}
 				>
 					⚙

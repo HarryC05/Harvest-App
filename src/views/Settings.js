@@ -18,10 +18,10 @@ const Settings = ( {
 	setCurrentProfile,
 } ) => {
 	const [harvestProjects, setHarvestProjects] = useState([]);
-	const [jiraProjects, setJiraProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
-	const [jiraProfiles, setJiraProfiles] = useState(JSON.parse(localStorage.getItem('jiraProfiles')) || []);
 	const [pillSuggestions, setPillSuggestions] = useState([]);
+
+	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
 	const getProjectData = async () => {
 		const harvestProjectsResp = await getProjects();
@@ -65,30 +65,19 @@ const Settings = ( {
 			tempJiraProjects[profile.name] = data;
 		};
 
-		// format the jira projects to be { id, name, key, uuid }
-		const formattedJiraProjects = Object.keys(tempJiraProjects).forEach( profile => {
-			return tempJiraProjects[profile].map( project => {
-				return {
-					id: project.id,
-					name: project.name,
-					key: project.key,
-					uuid: project.uuid,
-				}
-			} );
-		} );
-
 		// format the jira projects to be { value, uuid }
 		const suggestions = Object.keys(tempJiraProjects).flatMap( profile => {
 			return tempJiraProjects[profile].map( project => {
 				return {
-					value: `${project.name} (${project.key})`,
+					value: `${project.key}: ${project.name}`,
 					uuid: project.uuid,
 					info: profile,
+					id: project.id,
+					name: project.name,
+					key: project.key,
 				}
 			} );
 		} );
-
-		setJiraProjects( formattedJiraProjects );
 		setPillSuggestions( suggestions );
 	}
 
@@ -106,6 +95,14 @@ const Settings = ( {
 		) {
 			window.location.reload();
 		}
+	}
+
+	const onPillBoxChange = (tags, project) => {
+		const tempLinkedProjects = { ...linkedProjects };
+
+		tempLinkedProjects[project.id] = tags;
+
+		setLinkedProjects(tempLinkedProjects);
 	}
 
 	useEffect( () => {
@@ -209,7 +206,11 @@ const Settings = ( {
 											</button>
 										)
 									}
-									<PillBox suggestions={pillSuggestions} />
+									<PillBox
+										suggestions={pillSuggestions}
+										onChange={val => onPillBoxChange(val, project)}
+										selected={linkedProjects[project.id] || []}
+									/>
 								</li>
 							)})}
 						</ul>

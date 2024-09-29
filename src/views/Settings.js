@@ -210,29 +210,6 @@ const Settings = ( {
 										)
 									}
 									<PillBox suggestions={pillSuggestions} />
-									{/* { jiraProjects.length > 0 && (
-										<select
-											onChange={ ( e ) => {
-												if ( e.target.value === linkedProjects[project.id] ) {
-													return;
-												}
-
-												const newLinkedProjects = { ...linkedProjects, [project.id]: e.target.value };
-												setLinkedProjects( newLinkedProjects );
-											} }
-											defaultValue={linkedProjects[project.id] || ''}
-										>
-											<option value={''}>Select a Jira Project</option>
-											{jiraProjects.map( jiraProject => {return(
-												<option
-													key={jiraProject.id}
-													value={jiraProject.id}
-												>
-													{`${jiraProject.name} (${jiraProject.key})`}
-												</option>
-											)})}
-										</select>
-									) } */}
 								</li>
 							)})}
 						</ul>

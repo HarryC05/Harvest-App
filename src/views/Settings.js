@@ -40,7 +40,7 @@ const Settings = ( {
 			return;
 		}
 
-		const tempJiraProjects = [];
+		const tempJiraProjects = {};
 
 		for (const profile of jiraProfiles) {
 			const resp = await getJiraProjects( profile );
@@ -62,19 +62,30 @@ const Settings = ( {
 
 			const data = await resp.json();
 
-			tempJiraProjects.push( ...data );
+			tempJiraProjects[profile.name] = data;
 		};
 
-		const formattedJiraProjects = tempJiraProjects.map( project => {
-			return {
-				id: project.id,
-				name: project.name,
-				key: project.key
-			}
+		// format the jira projects to be { id, name, key, uuid }
+		const formattedJiraProjects = Object.keys(tempJiraProjects).forEach( profile => {
+			return tempJiraProjects[profile].map( project => {
+				return {
+					id: project.id,
+					name: project.name,
+					key: project.key,
+					uuid: project.uuid,
+				}
+			} );
 		} );
 
-		const suggestions = tempJiraProjects.map( project => {
-			return `${project.name} (${project.key})`;
+		// format the jira projects to be { value, uuid }
+		const suggestions = Object.keys(tempJiraProjects).flatMap( profile => {
+			return tempJiraProjects[profile].map( project => {
+				return {
+					value: `${project.name} (${project.key})`,
+					uuid: project.uuid,
+					info: profile,
+				}
+			} );
 		} );
 
 		setJiraProjects( formattedJiraProjects );

@@ -23,7 +23,7 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		if (value) {
 			const filtered = suggestions.filter(
 				(suggestion) =>
-					suggestion.toLowerCase().includes(value.toLowerCase()) && !tags.includes(suggestion)
+					suggestion.value.toLowerCase().includes(value.toLowerCase()) && !tags.includes(suggestion)
 			);
 			setFilteredSuggestions(filtered);
 		} else {
@@ -60,8 +60,6 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		addTag(suggestion);
 	};
 
-	console.log(filteredSuggestions);
-
 	return (
 		<div className="pillbox-container">
 			<div className="pillbox-inputs">
@@ -69,9 +67,10 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 				{tags.map((tag) => (
 					<div
 						className="pillbox-pill"
-						key={tag}
+						key={tag.uuid}
+						title={tag.info}
 					>
-						<span>{tag}</span>
+						<span>{tag.value}</span>
 						<button onClick={() => removeTag(tag)}>x</button>
 					</div>
 				))}
@@ -87,10 +86,11 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 				<ul className="pillbox-suggestions">
 					{filteredSuggestions.map((suggestion) => (
 						<li
-							key={suggestion}
+							key={suggestion.uuid}
 							onClick={() => handleSuggestionClick(suggestion)}
+							title={suggestion.info}
 						>
-							{suggestion}
+							{suggestion.value}
 						</li>
 					))}
 				</ul>

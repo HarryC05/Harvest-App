@@ -196,9 +196,6 @@ const Settings = ( {
 															name: project.name,
 															code: project.code
 														},
-														jira: {
-															id: linkedProjects[project.id]
-														}
 													} );
 												} }
 											>

@@ -148,35 +148,45 @@ export const getJiraProjects = async ( {token, email, url} ) => {
 
 
 // JIRA API: Get board by project key
-export const getJiraBoard = async (projectKey) => {
-	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
+export const getJiraBoards = async (id, {token, email, url}) => {
+	if (!token || !email || !url) {
 			return [];
 	}
 
-	const response = await fetch(`/rest/agile/1.0/board?projectKeyOrId=${projectKey}`, {
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
+	}
+
+	const response = await fetch(`/rest/agile/1.0/board?projectKeyOrId=${id}`, {
 			method: 'GET',
-			headers: headers.jira,
+			headers: header,
 	});
 
-	const data = await response.json();
-
-	return data?.values[0];
+	return response;
 };
 
 // JIRA API: Get columns by board ID
-export const getJiraColumns = async (boardId) => {
-	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
+export const getJiraColumns = async (boardId, {token, email, url}) => {
+	if (!token || !email || !url) {
 			return [];
+	}
+
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
 	}
 
 	const response = await fetch(`/rest/agile/1.0/board/${boardId}/configuration`, {
 			method: 'GET',
-			headers: headers.jira,
+			headers: header,
 	});
 
-	const data = await response.json();
-
-	return data?.columnConfig.columns;
+	return response;
 };
 
 // JIRA API: Get the current sprint

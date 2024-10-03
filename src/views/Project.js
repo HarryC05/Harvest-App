@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Timer from '../components/Timer';
-import { startTimer, stopTimer, getJiraBoard, getCurrentSprint, getSprintTickets, getJiraColumns } from '../utils/api';
+import { startTimer, stopTimer, getJiraBoards, getCurrentSprint, getSprintTickets, getJiraColumns } from '../utils/api';
 
 const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviousView, notificationsList, setNotificationsList }) => {
 	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
@@ -16,7 +16,7 @@ const Project = ({ projectData, setSelectedProject, runningTask, setRunningTask,
 	const fetchCurrentSprintTickets = async () => {
 		setLoadingTickets(true);
 
-		const board = await getJiraBoard(linkedProjects[projectData.project.id]);
+		const board = await getJiraBoards(linkedProjects[projectData.project.id]);
 		setJiraProject({ ...jiraProject, board: board.id });
 
 		const sprint = await getCurrentSprint(board.id);

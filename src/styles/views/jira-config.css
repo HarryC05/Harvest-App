@@ -60,4 +60,17 @@
 	gap: 0.5rem;
 	display: flex;
 	flex-direction: column;
+	min-width: 40%;
+	width: fit-content;
+}
+
+.board-config .columns li {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 0.5rem;
+	border-bottom: #666 1px solid;
+}
+
+.board-config .columns li:last-child {
+	border-bottom: none;
 }

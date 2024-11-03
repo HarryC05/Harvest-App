@@ -144,6 +144,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 								<li key={column.id}>
 									<span>{column.name}</span>
 									<select>
+										<option value=''>Select a Harvest Task</option>
 									</select>
 								</li>
 							);

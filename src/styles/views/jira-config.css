@@ -74,3 +74,7 @@
 .board-config .columns li:last-child {
 	border-bottom: none;
 }
+
+.main:has(> .tabs > .tab.selected:first-child) .board-config {
+	border-top-left-radius: 0;
+}

@@ -7,7 +7,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 	const [jiraBoards, setJiraBoards] = useState({});
 	const [selectedBoard, setSelectedBoard] = useState(null);
 	const [columns, setColumns] = useState({});
-
+	const [harvestTasks, setHarvestTasks] = useState({});
 	const jiraProjects = JSON.parse(localStorage.getItem('linkedProjects'))?.[projectToConfigure.harvest.id] || {};
 	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
@@ -91,9 +91,21 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		setColumns(tempColumns);
 	};
 
+	const setTask = (e, column) => {
+		const task = e.target.value;
+		const tempTasks = { ...harvestTasks };
+		if (!tempTasks[selectedBoard]) {
+			tempTasks[selectedBoard] = {};
+		}
+		tempTasks[selectedBoard][column] = task;
+		setHarvestTasks(tempTasks);
+		localStorage.setItem('linkedHarvestTasks', JSON.stringify(tempTasks));
+	};
+
 	useEffect(() => {
 		fetchProjectData();
 		fetchJiraBoards();
+		setHarvestTasks(JSON.parse(localStorage.getItem('linkedHarvestTasks')) || {});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -127,7 +139,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 								onClick={() => {
 									setSelectedBoard(board);
 								}}
-								class={`tab ${selectedBoard === board ? 'selected' : ''}`}
+								className={`tab ${selectedBoard === board ? 'selected' : ''}`}
 							>
 								{jiraBoards[board].name}
 							</button>
@@ -141,10 +153,19 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 					<ul className="columns">
 						{columns[selectedBoard] && columns[selectedBoard].map( column => {
 							return (
-								<li key={column.id}>
+								<li key={column.name}>
 									<span>{column.name}</span>
-									<select>
+									<select
+										value={harvestTasks?.[selectedBoard]?.[column.name] || ''}
+										onChange={(e) => setTask(e, column.name)}
+									>
 										<option value=''>Select a Harvest Task</option>
+										{projectData.task_assignments.map( task_assignment => {
+											const task = task_assignment.task;
+											return (
+												<option key={`${jiraBoards[selectedBoard].name}-${task.id}`} value={task.id}>{task.name}</option>
+											);
+										})}
 									</select>
 								</li>
 							);

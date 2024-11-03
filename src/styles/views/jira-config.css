@@ -69,6 +69,7 @@
 	justify-content: space-between;
 	padding-bottom: 0.5rem;
 	border-bottom: #666 1px solid;
+	gap: 1rem;
 }
 
 .board-config .columns li:last-child {

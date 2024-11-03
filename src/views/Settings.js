@@ -185,6 +185,7 @@ const Settings = ( {
 									{
 										(JSON.parse(localStorage.getItem('linkedProjects')) || {})[project.id] &&
 										linkedProjects[project.id] !== '' &&
+										linkedProjects[project.id].length > 0 &&
 										(
 											<button
 												className='configure-btn'

@@ -35,24 +35,3 @@
 .profile-info input {
 	height: 1.5rem;
 }
-
-.profile-info .token-input {
-	display: flex;
-	align-items: center;
-}
-
-.profile-info .token-input input#jiraToken {
-	flex: 1;
-}
-
-.profile-info .token-input button.show-token {
-	display: flex;
-	align-self: center;
-	background: none;
-	border: none;
-	cursor: pointer;
-}
-
-.profile-info .token-input button.show-token svg path {
-	fill: light-dark(#000, #fff);
-}

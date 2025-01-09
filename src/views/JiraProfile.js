@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { getProfile } from '../utils/api';
 import { ShowPasswordIcon, HidePasswordIcon } from '../components/icons';
+import TokenInput from '../components/TokenInput';
 
 const JiraProfile = ( {
 	setCurrentView,
@@ -109,19 +110,12 @@ const JiraProfile = ( {
 					</div>
 					<div className='profile-info-input'>
 						<h4>Jira Token</h4>
-						<div className='token-input'>
-							<input type={showToken} id="jiraToken" defaultValue={currentProfile.token} />
-							<button
-								className='show-token'
-								onClick={() => {
-									setShowToken(showToken === 'password' ? 'text' : 'password');
-								}}
-							>
-								{ /* show eye symbols for show and hide */
-									showToken === 'password' ? <ShowPasswordIcon /> : <HidePasswordIcon />
-								}
-							</button>
-						</div>
+						<TokenInput
+							showToken={showToken}
+							defaultValue={currentProfile.token}
+							setShowToken={setShowToken}
+							id="jiraToken"
+						/>
 					</div>
 					<button
 						className="save-btn"

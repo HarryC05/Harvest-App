@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { getProjects, getJiraProjects } from '../utils/api';
+import { ShowPasswordIcon, HidePasswordIcon } from '../components/icons';
 import PillBox from '../components/PillBox';
+import TokenInput from '../components/TokenInput';
 
 /**
  * Settings page to set the harvest api token and key,
@@ -20,6 +22,7 @@ const Settings = ( {
 	const [harvestProjects, setHarvestProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
 	const [pillSuggestions, setPillSuggestions] = useState([]);
+	const [showToken, setShowToken] = useState('password');
 
 	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
@@ -128,10 +131,11 @@ const Settings = ( {
 					<div className='harvest-api-inputs'>
 						<h3>Harvest</h3>
 						<h4>Harvest API Token</h4>
-						<input
-							type='text'
-							id='harvest-token'
+						<TokenInput
+							showToken={showToken}
 							defaultValue={localStorage.getItem('harvestToken')}
+							setShowToken={setShowToken}
+							id='harvestToken'
 							size={75}
 						/>
 						<h4>Harvest Account ID</h4>

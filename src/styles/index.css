@@ -11,10 +11,11 @@
 /**
  * Component styles
  */
-@import './components/notifications.css';
+@import './components/Notifications.css';
 @import './components/buttons.css';
-@import './components/spinner.css';
+@import './components/Spinner.css';
 @import './components/PillBox.css';
+@import './components/TokenInput.css';
 
 /**
  * Global styles

@@ -85,7 +85,7 @@ const Settings = ( {
 	}
 
 	const onSave = () => {
-		localStorage.setItem('harvestToken', document.getElementById('harvest-token').value);
+		localStorage.setItem('harvestToken', document.getElementById('harvestToken').value);
 		localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
 		localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
 		setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
@@ -93,7 +93,7 @@ const Settings = ( {
 
 		// refresh the page to get the new data if the user has changed the api keys
 		if (
-			document.getElementById('harvest-token').value !== localStorage.getItem('harvestToken')
+			document.getElementById('harvestToken').value !== localStorage.getItem('harvestToken')
 			|| document.getElementById('harvest-account-id').value !== localStorage.getItem('harvestAccountId')
 		) {
 			window.location.reload();

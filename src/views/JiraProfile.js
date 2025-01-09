@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { getProfile } from '../utils/api';
-import { ShowPasswordIcon, HidePasswordIcon } from '../components/icons';
 import TokenInput from '../components/TokenInput';
 
 const JiraProfile = ( {

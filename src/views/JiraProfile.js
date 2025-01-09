@@ -3,6 +3,18 @@ import { useState } from 'react';
 import { getProfile } from '../utils/api';
 import TokenInput from '../components/TokenInput';
 
+/**
+ * The Jira Profile Creation view element
+ *
+ * @param {object}   props                      - The props object
+ * @param {function} props.setCurrentView       - The function to set the current view
+ * @param {object}   props.currentProfile       - The current jira profile object
+ * @param {function} props.setCurrentProfile    - The function to set the current jira profile object
+ * @param {array}    props.notificationsList    - The list of notifications
+ * @param {function} props.setNotificationsList - The function to set the notifications list
+ *
+ * @returns {JSX.Element}
+ */
 const JiraProfile = ( {
 	setCurrentView,
 	currentProfile,
@@ -25,6 +37,11 @@ const JiraProfile = ( {
 		});
 	}
 
+	/**
+	 * Save the profile to the local storage
+	 *
+	 * @returns {void}
+	 */
 	const onSave = async () => {
 		// send saving notification
 		setNotificationsList([...notificationsList, {type: 'info', message: 'Saving Profile...', id: 'profile-saving', disappearTime: 3000}]);

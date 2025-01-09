@@ -2,12 +2,17 @@ import { useState, useEffect } from 'react';
 
 import { getProjects, getLastTimer } from '../utils/api';
 import ProjectList from '../views/ProjectList';
-import Project from '../views/Project';
+import HarvestProject from '../views/HarvestProject';
 import Settings from '../views/Settings';
 import JiraConfig from '../views/JiraConfig';
 import Notifications from '../components/Notifications';
 import JiraProfile from '../views/JiraProfile';
 
+/**
+ * The main App component
+ *
+ * @returns {JSX.Element}
+ */
 const App = () => {
 	const [projects, setProjects] = useState([]);
 	const [selectedProject, setSelectedProject] = useState(null);
@@ -21,10 +26,13 @@ const App = () => {
 	const apiAuth = {
 		harvestToken: localStorage.getItem('harvestToken'),
 		harvestAccountId: localStorage.getItem('harvestAccountId'),
-		jiraToken: localStorage.getItem('jiraToken'),
-		jiraAccountId: localStorage.getItem('jiraAccountId')
 	}
 
+	/**
+	 * Poll the latest harvest timer every 5 seconds
+	 *
+	 * @returns {void}
+	 */
 	const pollTimer = async () => {
 		const lastTimer = await getLastTimer();
 
@@ -45,6 +53,11 @@ const App = () => {
 		});
 	}
 
+	/**
+	 * Fetch the projects from the Harvest API
+	 *
+	 * @returns {void}
+	 */
 	const fetchProjects = async () => {
 		const projects = await getProjects();
 		setProjects(projects);
@@ -114,7 +127,7 @@ const App = () => {
 		return (
 			<>
 				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
-				<Project
+				<HarvestProject
 					projectData={selectedProject}
 					setSelectedProject={setSelectedProject}
 					runningTask={runningTask}

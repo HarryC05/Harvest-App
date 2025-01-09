@@ -1,8 +1,26 @@
 import { useState } from 'react';
 
+/**
+ * The view element to display all the Harvest projects
+ *
+ * @param {object}   props                    - The props object
+ * @param {array}    props.projects           - The array of Harvest projects
+ * @param {function} props.setSelectedProject - The function to set the selected project
+ * @param {function} props.setCurrentView     - The function to set the current view
+ * @param {function} props.setPreviousView    - The function to set the previous view (used for the back button)
+ *
+ * @returns {JSX.Element}
+ */
 const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviousView } ) => {
 	const [ favourites, setFavourites ] = useState(JSON.parse(localStorage.getItem('favourites')) || []);
 
+	/**
+	 * Favourite a project
+	 *
+	 * @param {number} id - The id of the project to favourite
+	 *
+	 * @returns {void}
+	 */
 	const favourite = (id) => {
 		let favs = JSON.parse(localStorage.getItem('favourites')) || [];
 		if (favs.includes(id)) {

@@ -3,19 +3,25 @@ import { useState } from 'react';
 /**
  * PillBox component
  *
- * @param {mixed} param0 Props
- * @param {array} param0.suggestions List of suggestions
- * @param {function} param0.onChange Function to call when the value changes
- * @param {array} param0.selected Selected tags
+ * @param {object}   props             - Props
+ * @param {array}    props.suggestions - List of suggestions
+ * @param {function} props.onChange    - Function to call when the value changes
+ * @param {array}    props.selected    - Selected tags
  *
- * @returns JSX.Element
+ * @returns {JSX.Element}
  */
 const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 	const [tags, setTags] = useState([ ...selected ]);
 	const [inputValue, setInputValue] = useState('');
 	const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 
-	// Handle input change
+	/**
+	 * Handle input change
+	 *
+	 * @param {event} e - The event object
+	 *
+	 * @returns {void}
+	 */
 	const handleInputChange = (e) => {
 		const value = e.target.value;
 		setInputValue(value);
@@ -31,7 +37,13 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		}
 	};
 
-	// Add a new tag
+	/**
+	 * Add a tag to the list
+	 *
+	 * @param {array} tag - The tag to add
+	 *
+	 * @returns {void}
+	 */
 	const addTag = (tag) => {
 		if ( !tags.includes(tag) ) {
 			const newTags = [...tags, tag];
@@ -45,7 +57,13 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		}
 	};
 
-	// Remove a tag
+	/**
+	 * Remove a tag from the list
+	 *
+	 * @param {object} tagToRemove - The tag to remove
+	 *
+	 * @returns {void}
+	 */
 	const removeTag = (tagToRemove) => {
 		const newTags = tags.filter((tag) => tag !== tagToRemove);
 		setTags(newTags);
@@ -53,11 +71,6 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		if (onChange) {
 			onChange(newTags);
 		}
-	};
-
-	// Handle click on autocomplete suggestion
-	const handleSuggestionClick = (suggestion) => {
-		addTag(suggestion);
 	};
 
 	return (
@@ -87,7 +100,7 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 					{filteredSuggestions.map((suggestion) => (
 						<li
 							key={suggestion.uuid}
-							onClick={() => handleSuggestionClick(suggestion)}
+							onClick={() => addTag(suggestion)}
 							title={suggestion.info}
 						>
 							{suggestion.value}

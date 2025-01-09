@@ -2,6 +2,18 @@ import { useState, useEffect } from "react";
 
 import { getJiraBoards, getJiraColumns, getProject } from "../utils/api";
 
+/**
+ * The Jira Configuration view element
+ *
+ * @param {object}   props                       - The props object
+ * @param {object}   props.projectToConfigure    - The object containing the data for the project to configure
+ * @param {function} props.setProjectToConfigure - The function to set the project to configure
+ * @param {function} props.setCurrentView        - The function to set the current view
+ * @param {array}    props.notificationsList     - The list of notifications
+ * @param {function} props.setNotificationsList  - The function to set the notifications list
+ *
+ * @returns {JSX.Element}
+ */
 const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView, notificationsList, setNotificationsList } ) => {
 	const [projectData, setProjectData] = useState({});
 	const [jiraBoards, setJiraBoards] = useState({});
@@ -11,14 +23,25 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 	const jiraProjects = JSON.parse(localStorage.getItem('linkedProjects'))?.[projectToConfigure.harvest.id] || {};
 	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
+	/**
+	 * Fetch the project data
+	 *
+	 * @returns {void}
+	 */
 	const fetchProjectData = async () => {
 		const project = await getProject(projectToConfigure.harvest.id);
 		setProjectData(project);
 	}
+
+	/**
+	 * Fetch all Jira boards for the linked projects
+	 *
+	 * @returns {void}
+	 */
 	const fetchJiraBoards = async () => {
 		const tempBoardData = {};
 		for (const project of jiraProjects) {
-			const profile = jiraProfiles.find(profile => profile.name === project.info);
+			const profile = jiraProfiles.find(profile => profile.id === project.info.id);
 			const boards = await getJiraBoards(project.id, profile);
 
 			// check if the response has an error
@@ -52,6 +75,11 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		setSelectedBoard(Object.keys(tempBoardData)[0]);
 	};
 
+	/**
+	 * Fetch the columns for the currently selected board
+	 *
+	 * @returns {void}
+	 */
 	const fetchColumns = async () => {
 		// if the columns are already fetched, return
 		if (columns[selectedBoard]) {
@@ -61,7 +89,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		// get the board
 		const board = jiraBoards[selectedBoard];
 
-		const profile = jiraProfiles.find(profile => profile.name === board.info);
+		const profile = jiraProfiles.find(profile => profile.id === board.info.id);
 
 		const response = await getJiraColumns(board.id, profile);
 
@@ -91,6 +119,13 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		setColumns(tempColumns);
 	};
 
+	/**
+	 *
+	 * @param {event}  e      - The event object
+	 * @param {string} column - The column name
+	 *
+	 * @returns {void}
+	 */
 	const setTask = (e, column) => {
 		const task = e.target.value;
 		const tempTasks = { ...harvestTasks };

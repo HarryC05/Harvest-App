@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { getProjects, getJiraProjects } from '../utils/api';
-import { ShowPasswordIcon, HidePasswordIcon } from '../components/icons';
 import PillBox from '../components/PillBox';
 import TokenInput from '../components/TokenInput';
 
@@ -10,6 +9,16 @@ import TokenInput from '../components/TokenInput';
  * as well as the jira api token and key.
  *
  * These keys will be stored in the local storage and will be automatically set to the input fields
+ *
+ * @param {object}   props                       - The props object
+ * @param {function} props.setCurrentView        - The function to set the current view
+ * @param {string}   props.previousView          - The previous view to go back to when the back button is clicked
+ * @param {function} props.setProjectToConfigure - The function to set the project to configure
+ * @param {array}    props.notificationsList     - The list of notifications
+ * @param {function} props.setNotificationsList  - The function to set the notifications list
+ * @param {function} props.setCurrentProfile     - The function to set the current profile
+ *
+ * @returns {JSX.Element}
  */
 const Settings = ( {
 	setCurrentView,
@@ -26,6 +35,11 @@ const Settings = ( {
 
 	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
+	/**
+	 * Get the project data from the Harvest and Jira APIs
+	 *
+	 * @returns {void}
+	 */
 	const getProjectData = async () => {
 		const harvestProjectsResp = await getProjects();
 
@@ -69,12 +83,12 @@ const Settings = ( {
 		};
 
 		// format the jira projects to be { value, uuid }
-		const suggestions = Object.keys(tempJiraProjects).flatMap( profile => {
-			return tempJiraProjects[profile].map( project => {
+		const suggestions = Object.keys(tempJiraProjects).flatMap( profileName => {
+			return tempJiraProjects[profileName].map( project => {
 				return {
 					value: `${project.key}: ${project.name}`,
 					uuid: project.uuid,
-					info: profile,
+					info: jiraProfiles.find( profile => profile.name === profileName ),
 					id: project.id,
 					name: project.name,
 					key: project.key,
@@ -84,6 +98,11 @@ const Settings = ( {
 		setPillSuggestions( suggestions );
 	}
 
+	/**
+	 * Save the settings to the local storage
+	 *
+	 * @returns {void}
+	 */
 	const onSave = () => {
 		localStorage.setItem('harvestToken', document.getElementById('harvestToken').value);
 		localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
@@ -100,6 +119,14 @@ const Settings = ( {
 		}
 	}
 
+	/**
+	 * Update the linked projects when the pill box changes
+	 *
+	 * @param {array}  tags    - The tags in the pill box
+	 * @param {object} project - The project object
+	 *
+	 * @returns {void}
+	 */
 	const onPillBoxChange = (tags, project) => {
 		const tempLinkedProjects = { ...linkedProjects };
 

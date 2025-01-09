@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 import { getProfile } from '../utils/api';
+import { ShowPasswordIcon, HidePasswordIcon } from '../components/icons';
 
 const JiraProfile = ( {
 	setCurrentView,
@@ -7,6 +10,8 @@ const JiraProfile = ( {
 	notificationsList,
 	setNotificationsList,
 } ) => {
+	const [showToken, setShowToken] = useState('password');
+
 	// Setup the current profile if it's empty
 	if (currentProfile.length === 0) {
 		// Create a new profile
@@ -104,7 +109,19 @@ const JiraProfile = ( {
 					</div>
 					<div className='profile-info-input'>
 						<h4>Jira Token</h4>
-						<input type="text" id="jiraToken" defaultValue={currentProfile.token} />
+						<div className='token-input'>
+							<input type={showToken} id="jiraToken" defaultValue={currentProfile.token} />
+							<button
+								className='show-token'
+								onClick={() => {
+									setShowToken(showToken === 'password' ? 'text' : 'password');
+								}}
+							>
+								{ /* show eye symbols for show and hide */
+									showToken === 'password' ? <ShowPasswordIcon /> : <HidePasswordIcon />
+								}
+							</button>
+						</div>
 					</div>
 					<button
 						className="save-btn"

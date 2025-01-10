@@ -1,0 +1,39 @@
+/**
+ * Jira Board
+ */
+.jira-board {
+	background-color: light-dark(#f5f5f5, #333);
+	padding: 1rem;
+	border-radius: 5px;
+}
+
+/* Set the top left corner to have no radius if the first tab is selected */
+.jira-boards:has(> .tabs > .tab.selected:first-child) .jira-board {
+	border-top-left-radius: 0;
+}
+
+/**
+ * Jira Board Columns
+ */
+.jira-board .jira-columns {
+	display: grid;
+	overflow: scroll;
+	list-style: none;
+	padding: 0;
+	gap: 0.5rem;
+}
+
+.jira-board .jira-columns > li.jira-column {
+	background-color: light-dark(#eaeaea, #666);
+	border-radius: 10px;
+	max-height: 80vh;
+	overflow: scroll;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.jira-board .jira-columns > li.jira-column h4 {
+	margin: 0;
+}

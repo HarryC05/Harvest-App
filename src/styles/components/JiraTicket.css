@@ -1,0 +1,94 @@
+/**
+ * Jira Board Cards
+ */
+ .jira-board .jira-tickets {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.jira-board .jira-ticket-card {
+	background-color: light-dark(#f5f5f5, #999);
+	color: light-dark(#000, #fff);
+	border-radius: 5px;
+	padding: 0.75rem;
+	margin-bottom: 0.5rem;
+	overflow-wrap: anywhere;
+}
+
+/* Jira Key */
+.jira-board .jira-ticket-card .jira-ticket-key {
+	color: #fff;
+	background: #666;
+	padding: 0.25rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+}
+
+/* Jira Title */
+.jira-board .jira-ticket-card .jira-ticket-title {
+	margin: 0.5rem 0;
+}
+
+/* Jira Footer */
+.jira-board .jira-ticket-card .jira-ticket-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 0.25rem;
+}
+
+/* Jira Assignee */
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-ticket-assignee {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-ticket-assignee img {
+	width: 2rem;
+	border-radius: 999px;
+}
+
+/* Jira Priority Symbols */
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-1 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #dc143c;
+}
+
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-2 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #e15a75;
+}
+
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-3 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #f5b236;
+}
+
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-4 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #6d9bd2;
+}
+
+.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-5 {
+	width: fit-content;
+	transform: rotate(90deg);
+	align-self: end;
+	font-size: 1.5rem;
+	color: #106cdc;
+}

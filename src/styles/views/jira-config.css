@@ -17,35 +17,6 @@
 }
 
 /**
- * Tabs Styles
- */
-
-.tabs {
-	display: flex;
-	overflow: scroll;
-}
-
-.tab.selected {
-	background: #333;
-	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	border-bottom: none;
-}
-
-.tab {
-	border: none;
-	font-size: 1rem;
-	padding: 0.5rem 0.75rem;
-	background: none;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-}
-
-.tab:hover {
-	background: #666;
-}
-
-/**
  * Jira Board Config
  */
 .board-config {

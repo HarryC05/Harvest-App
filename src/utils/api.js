@@ -161,7 +161,7 @@ export const getJiraProjects = async ( {token, email, url} ) => {
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
 		'X-Target-URL': url ? `${url}/rest` : ''
-	}
+	};
 
 	const response = await fetch('/rest/api/3/project', {
 			method: 'GET',
@@ -193,7 +193,7 @@ export const getJiraBoards = async (id, {token, email, url}) => {
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
 		'X-Target-URL': url ? `${url}/rest` : ''
-	}
+	};
 
 	const response = await fetch(`/rest/agile/1.0/board?projectKeyOrId=${id}`, {
 			method: 'GET',
@@ -224,7 +224,7 @@ export const getJiraColumns = async (boardId, {token, email, url}) => {
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
 		'X-Target-URL': url ? `${url}/rest` : ''
-	}
+	};
 
 	const response = await fetch(`/rest/agile/1.0/board/${boardId}/configuration`, {
 			method: 'GET',
@@ -245,12 +245,16 @@ export const getJiraColumns = async (boardId, {token, email, url}) => {
  * @returns {Promise} response - The response object
  */
 export const getProfile = async ( {url, email, token} ) => {
+	if (!token || !email || !url) {
+		return [];
+	}
+
 	const header = {
 		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
 		'X-Target-URL': url ? `${url}/rest` : ''
-	}
+	};
 
 	// set the priority of the request to be as high as possible
 	const response = await fetch('/rest/api/3/myself', {
@@ -261,34 +265,64 @@ export const getProfile = async ( {url, email, token} ) => {
 	return response;
 };
 
-// JIRA API: Get the current sprint
-// export const getCurrentSprint = async (boardId) => {
-// 	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
-// 			return [];
-// 	}
+/**
+ * Fetch the current sprint from the Jira API
+ *
+ * @param {number} boardId - The board ID
+ * @param {object} auth    - The object containing the authentication data
+ * @param {string} auth.token - The Jira API token
+ * @param {string} auth.email - The Jira API email
+ * @param {string} auth.url   - The Jira API URL
+ *
+ * @returns {Promise} response - The response object
+ */
+export const getCurrentSprint = async (boardId, {token, email, url}) => {
+	if (!token || !email || !url) {
+		return [];
+	}
 
-// 	const response = await fetch(`/rest/agile/1.0/board/${boardId}/sprint?state=active`, {
-// 			method: 'GET',
-// 			headers: headers.jira,
-// 	});
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
+	};
 
-// 	const data = await response.json();
+	const response = await fetch(`/rest/agile/1.0/board/${boardId}/sprint?state=active`, {
+		method: 'GET',
+		headers: header,
+	});
 
-// 	return data?.values[0];
-// };
+	return response;
+};
 
-// JIRA API: Get tickets for a sprint
-// export const getSprintTickets = async (sprintId) => {
-// 	if (!JIRATOKEN || !JIRAEMAIL || !JIRAURL) {
-// 			return [];
-// 	}
+/**
+ * Fetch the tickets from the Jira API
+ *
+ * @param {number} sprintId   - The sprint ID
+ * @param {object} auth       - The object containing the authentication data
+ * @param {string} auth.token - The Jira API token
+ * @param {string} auth.email - The Jira API email
+ * @param {string} auth.url   - The Jira API URL
+ *
+ * @returns {Promise} response - The response object
+ */
+export const getSprintTickets = async (sprintId, {token, email, url}) => {
+	if (!token || !email || !url) {
+		return [];
+	}
 
-// 	const response = await fetch(`/rest/agile/1.0/sprint/${sprintId}/issue?maxResults=100`, {
-// 			method: 'GET',
-// 			headers: headers.jira,
-// 	});
+	const header = {
+		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : ''
+	};
 
-// 	const data = await response.json();
+	const response = await fetch(`/rest/agile/1.0/sprint/${sprintId}/issue?maxResults=100`, {
+		method: 'GET',
+		headers: header,
+	});
 
-// 	return data?.issues;
-// };
+	return response;
+};

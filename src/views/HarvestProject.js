@@ -19,7 +19,16 @@ import JiraBoard from '../components/JiraBoard';
  *
  * @returns {JSX.Element}
  */
-const HarvestProject = ({ projectData, setSelectedProject, runningTask, setRunningTask, setCurrentView, setPreviousView, notificationsList, setNotificationsList }) => {
+const HarvestProject = ({
+	projectData,
+	setSelectedProject,
+	runningTask,
+	setRunningTask,
+	setCurrentView,
+	setPreviousView,
+	notificationsList,
+	setNotificationsList
+}) => {
 	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
 	const jiraConfig = JSON.parse(localStorage.getItem('jiraConfig')) || {};
 	const jiraProjects = linkedProjects[projectData.project.id] || [];
@@ -166,9 +175,7 @@ const HarvestProject = ({ projectData, setSelectedProject, runningTask, setRunni
 						})}
 					</div>
 					{/* Board View */}
-					<div className="board-view">
-						<JiraBoard board={boards[selectedBoard]}/>
-					</div>
+					<JiraBoard board={boards[selectedBoard]}/>
 				</div>
 			)}
 		</div>

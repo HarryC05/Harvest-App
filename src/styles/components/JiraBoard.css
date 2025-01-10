@@ -37,3 +37,32 @@
 .jira-board .jira-columns > li.jira-column h4 {
 	margin: 0;
 }
+
+/**
+ * Board Header
+ */
+.jira-board .jira-board-header {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+/* Sprint Indicator */
+.jira-board .jira-sprint-indicator {
+	cursor: default;
+	margin-left: 0.25rem;
+}
+
+.jira-board .jira-sprint-indicator.active {
+	color: #32cd32;
+}
+
+.jira-board .jira-sprint-indicator.inactive {
+	color: #f00;
+}
+
+/* Assignee */
+.jira-board .jira-board-assignee {
+	display: flex;
+	gap: 0.5rem;
+}

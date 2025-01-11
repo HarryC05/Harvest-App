@@ -30,7 +30,6 @@ const HarvestProject = ({
 	setNotificationsList
 }) => {
 	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
-	const jiraConfig = JSON.parse(localStorage.getItem('jiraConfig')) || {};
 	const jiraProjects = linkedProjects[projectData.project.id] || [];
 
 	const [ boards, setBoards ] = useState([]);
@@ -87,7 +86,7 @@ const HarvestProject = ({
 	 * @returns {void}
 	 */
 	const onTaskClick = async (task, note = null) => {
-		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && (note !== null && runningTask.notes === note)) {
+		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && runningTask.notes === note) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;
@@ -175,7 +174,12 @@ const HarvestProject = ({
 						})}
 					</div>
 					{/* Board View */}
-					<JiraBoard board={boards[selectedBoard]}/>
+					<JiraBoard
+						board={boards[selectedBoard]}
+						notificationsList={notificationsList}
+						setNotificationsList={setNotificationsList}
+						startTimer={onTaskClick}
+					/>
 				</div>
 			)}
 		</div>

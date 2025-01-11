@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCurrentSprint, getJiraColumns, getSprintTickets } from "../utils/api";
 import JiraTicket from "./JiraTicket";
+import Spinner from "./Spinner";
 
 /**
  * The Jira Board component
@@ -9,19 +10,22 @@ import JiraTicket from "./JiraTicket";
  * @param {object}   props.board                - The object containing the data for the board
  * @param {array}    props.notificationsList    - The list of notifications
  * @param {function} props.setNotificationsList - The function to set the notifications list
+ * @param {function} props.startTimer           - The function to start the timer
  *
  * @returns {JSX.Element}
  */
 const JiraBoard = ( {
 	board,
 	notificationsList,
-	setNotificationsList
+	setNotificationsList,
+	startTimer,
 } ) => {
-	const [ columns, setColumns ] = useState([]);
+	const [columns, setColumns] = useState([]);
 	const [currentSprint, setCurrentSprint] = useState(null);
 	const [tickets, setTickets] = useState([]);
 	const [assignee, setAssignee] = useState('all');
 	const [assigneeOptions, setAssigneeOptions] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	/**
 	 * Fetch the boards columns
@@ -59,6 +63,7 @@ const JiraBoard = ( {
 	 * @returns {void}
 	 */
 	const fetchTickets = async () => {
+		setLoading(true);
 		// fetch the current sprint
 		const sprintResp = await getCurrentSprint(board.id, board.info);
 
@@ -139,12 +144,50 @@ const JiraBoard = ( {
 		};
 
 		setAssigneeOptions(tempAssigneeOptions);
+
+		setLoading(false);
 	};
+
+	/**
+	 * Reload the tickets
+	 *
+	 * @returns {void}
+	 */
+	const reloadTickets = async () => {
+		await fetchTickets();
+
+		// set notification that the tickets have been reloaded
+		setNotificationsList([
+			...notificationsList,
+			{
+				type: 'success',
+				message: 'Current sprint tickets reloaded',
+				disappearTime: 3000,
+			}
+		]);
+	};
+
+	/**
+	 * Poll the tickets every 15 seconds
+	 *
+	 * @returns {void}
+	 */
+	const pollTickets = async () => {
+		await fetchTickets();
+	};
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			pollTickets();
+		} , 15000);
+
+		return () => clearInterval(interval);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		fetchColumns();
 		fetchTickets();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="jira-board">
@@ -170,6 +213,12 @@ const JiraBoard = ( {
 						))}
 					</select>
 				</div>
+				<button
+					onClick={reloadTickets}
+					className='jira-board-refresh-btn'
+					title='Reload tickets'
+				>↻</button>
+				{loading && <Spinner />}
 			</div>
 			<ul className="jira-columns" style={{ gridTemplateColumns: `repeat(${columns.length}, 19%)` }}>
 				{columns.map((column, index) => (
@@ -180,7 +229,13 @@ const JiraBoard = ( {
 								.filter( ticket => assignee === 'all' || ticket.fields.assignee?.emailAddress === assignee || ( assignee === 'unassigned' && ! ticket.fields.assignee ) )
 								.filter( ticket => column.statuses.some( status => status.id === ticket.fields.status.id ) )
 								.map( (ticket, i) => (
-									<JiraTicket key={i} ticket={ticket} />
+									<JiraTicket
+										key={i}
+										ticket={ticket}
+										startTimer={startTimer}
+										column={column}
+										board={board}
+									/>
 								) )
 							}
 						</ul>

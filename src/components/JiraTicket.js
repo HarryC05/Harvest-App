@@ -1,8 +1,48 @@
 import { UnassignedIcon } from "./icons";
 
-const JiraTicket = ({ ticket, key }) => {
+/**
+ * JiraTicket component
+ *
+ * @param {object}   props        - The props object
+ * @param {object}   props.ticket - The object containing the ticket data
+ * @param {number}   props.key    - The key for the ticket
+ * @param {function} startTimer   - The function to start the timer
+ * @param {object}   column       - The column object
+ * @param {object}   board        - The board object
+ *
+ * @returns {JSX.Element}
+ */
+const JiraTicket = ({
+	ticket,
+	key,
+	startTimer,
+	column,
+	board,
+}) => {
+	const jiraConfig = JSON.parse(localStorage.getItem('linkedHarvestTasks'))?.[`${board.name}-${board.id}`] || {};
+
 	return (
 		<li key={key} className="jira-ticket-card">
+			<button
+				className="jira-ticket-timerBtn"
+				title="Start Timer"
+				onClick={() => {
+					const id = jiraConfig?.[column.name] || null;
+
+					if ( ! id ) {
+						return;
+					}
+
+					startTimer(
+						{
+							task: { id }
+						},
+						`${ticket.key}: ${ticket.fields.summary}`
+					)
+				}}
+			>
+				⏱
+			</button>
 			<span className="jira-ticket-key">{ticket.key}</span>
 			<h5 className="jira-ticket-title">{ticket.fields.summary}</h5>
 			<div className='jira-ticket-footer'>

@@ -34,51 +34,63 @@ Harvest App allows you to manage and track time efficiently with a clean user in
 
 ## Setup
 
-1. Create a Harvest API token and account ID [here](https://id.getharvest.com/oauth2/access_tokens/new).
-2. Create a Jira API key [here](https://id.atlassian.com/manage-profile/security/api-tokens).
-3. Input the following on the settings view to get started.
-   - **Harvest API Token** (required)
-   - **Harvest Account ID** (required)
-   - **Jira API Token** (optional)
-   - **Jira Email** (optional) – The email associated with your Jira account
-   - **Jira URL** (optional) – The root URL of your Jira workspace (e.g. https://{workspace}.atlassian.net/)
-
+1. Create a Harvest API token and account ID:
+   - Generate them [here](https://id.getharvest.com/oauth2/access_tokens/new)
+   - Enter the Harvest API Token and Harvest Account ID into the settings view (click the settings button).
+2. Enable Jira integration (optional):
+   - Create Jira API key [here](https://id.atlassian.com/manage-profile/security/api-tokens).
+   - Go to settings and click Add Profile. Fill in all the fields:
+     - Profile Name: A nickname for this profile.
+     - Jira URL: The root URL of your Jira workspace (e.g., `https://{workspace}.atlassian.net/`).
+     - Jira Email: The email associated with your Jira account.
+     - Jira API Token: Use the token created earlier.
+   - Repeat these steps for each Jira workspace you want to add.
+3. Link Jira Projects to Harvest Projects:
+   - Navigate to the `Harvest Projects` section in settings.
+   - Next to each Harvest project, use the pillbox input to search for and link a Jira project.
+4. Configure Jira Boards:
+   - Click the `Configure Jira Project` button next to each Harvest project.
+   - Assign timers to columns for all boards associated with the project.
+   - For example, map "In Progress" to the development timer task in Harvest.
 
 ## Usage
 
 ### Basic
 
-You can use this app for just managing your harvest timers, simply add your Harvest API Token and Harvest Account ID to the settings view which you will be prompted to go to if you haven't already.
+To manage your Harvest timers:
 
-Once your settings are configured, you'll see a list of your Harvest projects. Clicking on a project will take you to its tasks, where you can start or stop a timer by clicking on any task.
-
-Inside the project view, you can click on any of the tasks to start a timer for that task, and click it again to end the task.
-
+1. Add your Harvest API Token and Harvest Account ID in the settings view.
+2. Once configured, you’ll see a list of your Harvest projects on the home view (click the back arrow). Select a project to view its tasks.
+3. Start or stop timers by clicking on any task.
 
 ### Jira Integration
 
-You can also add Jira integration to this app which will allow you to link a Jira board to a Harvest project.
+Enhance functionality by integrating Jira with Harvest
 
-To link Jira with Harvest, create a Jira API token (create it [here](https://id.atlassian.com/manage-profile/security/api-tokens)) and enter it in the settings view. Add your Jira email and the root URL of your Jira workspace.
-
-Once these settings are saved, the Projects section will display a dropdown with all your Jira boards. You can then associate each Jira board with a Harvest project. After linking a board, you'll see a `Configure Jira Project` button. Click this to assign each column from the Jira board to a corresponding Harvest task.
-
-You will then need to add your email which is linked to your Jira account to the Jira Email input, and the root URL of your Jira Workspace to the Jira URL input.
-
-Once these settings are filled in, you will see the Projects section of the settings view becomes populated with a dropdown selector with all the Jira boards you are able to view. You can then select which Jira board is associated with which Harvest project.
-
-When a board is linked with a project, a `Configure Jira Project` button will appear, once clicked, you will be taken to the project configuration view.
-
-Inside the project configuration view, you will be able to assign each column from a Jira board a harvest task from the dropdown selector, e.g. you can link the In Progress column with the development jira task meaning that when you start a timer for a Jira task inside the In Progress column it will assign the task development to the Harvest timer.
-
-Once you have configured your jira board click save and then you can click the back arrow and configure your other boards.
-
-When all your boards are configure, you will now be able to click into a project from the home screen and once inside the project view, you will see your jira tasks below your harvest tasks. Once you click a Jira task a Harvest timer will start, with a comment which is formatted as `{Ticket ID}: {Ticket Title}` you can then click it again to stop the timer.
-
+1. Create a Jira API token and configure a profile in the settings view, as described in the setup section.
+2. Link Jira projects to Harvest projects in the settings view.
+3. Configure each Jira board by assigning column types to timers.
+4. Access your linked Jira boards from the project view:
+5. Tabs will display each Jira board for the active sprint.
+6. Hover over a Jira ticket to reveal a stopwatch button (`⏱`). Clicking it starts a timer in Harvest, formatted as `{Ticket ID}: {Ticket Title}`.
 
 ## Contributing
 
-1. Create a new branch (`git checkout -b feature/your-feature-name`).
-2. Commit your changes (`git commit -m 'Add some feature'`).
-3. Push to the branch (`git push origin feature/your-feature-name`).
+To get started contributing:
+
+1. Create a new branch:
+```sh
+git checkout -b feature/your-feature-name
+```
+
+2. Commit your changes (using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) format):
+```sh
+git commit -m 'feat: Add some feature'
+```
+
+3. Push to the branch:
+```sh
+git push origin feature/your-feature-name
+```
+
 4. Open a pull request.

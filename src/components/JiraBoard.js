@@ -133,9 +133,8 @@ const JiraBoard = ( {
 
 		// if the current user is there, change the value to 'Current User' and move it to the front
 		if ( tempAssigneeOptions[boardRef.current.info.email] ) {
-			tempAssigneeOptions[boardRef.current.info.email] = 'Current User';
 			tempAssigneeOptions = {
-				[boardRef.current.info.email]: 'Current User',
+				[boardRef.current.info.email]: tempAssigneeOptions[boardRef.current.info.email],
 				...tempAssigneeOptions
 			};
 		}

@@ -1,18 +1,45 @@
 import { useEffect, useState } from 'react';
 
 import { getProjects, getJiraProjects } from '../utils/api';
+import PillBox from '../components/PillBox';
+import TokenInput from '../components/TokenInput';
 
 /**
  * Settings page to set the harvest api token and key,
  * as well as the jira api token and key.
  *
  * These keys will be stored in the local storage and will be automatically set to the input fields
+ *
+ * @param {object}   props                       - The props object
+ * @param {function} props.setCurrentView        - The function to set the current view
+ * @param {string}   props.previousView          - The previous view to go back to when the back button is clicked
+ * @param {function} props.setProjectToConfigure - The function to set the project to configure
+ * @param {array}    props.notificationsList     - The list of notifications
+ * @param {function} props.setNotificationsList  - The function to set the notifications list
+ * @param {function} props.setCurrentProfile     - The function to set the current profile
+ *
+ * @returns {JSX.Element}
  */
-const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notificationsList, setNotificationsList } ) => {
+const Settings = ( {
+	setCurrentView,
+	previousView,
+	setProjectToConfigure,
+	notificationsList,
+	setNotificationsList,
+	setCurrentProfile,
+} ) => {
 	const [harvestProjects, setHarvestProjects] = useState([]);
-	const [jiraProjects, setJiraProjects] = useState([]);
 	const [linkedProjects, setLinkedProjects] = useState(JSON.parse(localStorage.getItem('linkedProjects')) || {});
+	const [pillSuggestions, setPillSuggestions] = useState([]);
+	const [showToken, setShowToken] = useState('password');
 
+	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
+
+	/**
+	 * Get the project data from the Harvest and Jira APIs
+	 *
+	 * @returns {void}
+	 */
 	const getProjectData = async () => {
 		const harvestProjectsResp = await getProjects();
 
@@ -26,43 +53,91 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 
 		setHarvestProjects( formattedHarvestProjects );
 
-		const jiraProjectsResp = await getJiraProjects();
+		if ( jiraProfiles.length === 0 ) {
+			return;
+		}
 
-		const formattedJiraProjects = jiraProjectsResp.map( project => {
-			return {
-				id: project.id,
-				name: project.name,
-				key: project.key
+		const tempJiraProjects = {};
+
+		for (const profile of jiraProfiles) {
+			const resp = await getJiraProjects( profile );
+
+			// check if the response has an error
+			if ( ! resp.ok ) {
+				// show error message
+				setNotificationsList([
+					...notificationsList,
+					{
+						type: 'error',
+						message: `Error getting Jira projects for ${profile.name} profile`,
+						id: 'error-getting-jira-projects',
+						disappearTime: 3000
+					}
+				]);
+				return;
 			}
-		} );
 
-		setJiraProjects( formattedJiraProjects );
+			const data = await resp.json();
+
+			tempJiraProjects[profile.name] = data;
+		};
+
+		// format the jira projects to be { value, uuid }
+		const suggestions = Object.keys(tempJiraProjects).flatMap( profileName => {
+			return tempJiraProjects[profileName].map( project => {
+				return {
+					value: `${project.key}: ${project.name}`,
+					uuid: project.uuid,
+					info: jiraProfiles.find( profile => profile.name === profileName ),
+					id: project.id,
+					name: project.name,
+					key: project.key,
+				}
+			} );
+		} );
+		setPillSuggestions( suggestions );
 	}
 
+	/**
+	 * Save the settings to the local storage
+	 *
+	 * @returns {void}
+	 */
 	const onSave = () => {
-		localStorage.setItem('harvestToken', document.getElementById('harvest-token').value);
+		localStorage.setItem('harvestToken', document.getElementById('harvestToken').value);
 		localStorage.setItem('harvestAccountId', document.getElementById('harvest-account-id').value);
-		localStorage.setItem('jiraToken', document.getElementById('jira-token').value);
-		localStorage.setItem('jiraEmail', document.getElementById('jira-email').value);
-		localStorage.setItem('jiraUrl', document.getElementById('jira-url').value);
 		localStorage.setItem('linkedProjects', JSON.stringify(linkedProjects));
 		setLinkedProjects(JSON.parse(localStorage.getItem('linkedProjects')) || {});
 		setNotificationsList([...notificationsList, {type: 'success', message: 'Settings Saved', id: 'settings-saved-success', disappearTime: 3000}]);
 
 		// refresh the page to get the new data if the user has changed the api keys
 		if (
-			document.getElementById('harvest-token').value !== localStorage.getItem('harvestToken')
+			document.getElementById('harvestToken').value !== localStorage.getItem('harvestToken')
 			|| document.getElementById('harvest-account-id').value !== localStorage.getItem('harvestAccountId')
-			|| document.getElementById('jira-token').value !== localStorage.getItem('jiraToken')
-			|| document.getElementById('jira-email').value !== localStorage.getItem('jiraEmail')
-			|| document.getElementById('jira-url').value !== localStorage.getItem('jiraUrl') ) {
+		) {
 			window.location.reload();
 		}
 	}
 
+	/**
+	 * Update the linked projects when the pill box changes
+	 *
+	 * @param {array}  tags    - The tags in the pill box
+	 * @param {object} project - The project object
+	 *
+	 * @returns {void}
+	 */
+	const onPillBoxChange = (tags, project) => {
+		const tempLinkedProjects = { ...linkedProjects };
+
+		tempLinkedProjects[project.id] = tags;
+
+		setLinkedProjects(tempLinkedProjects);
+	}
+
 	useEffect( () => {
 		getProjectData();
-	}, [] );
+	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div id="settings">
@@ -80,43 +155,55 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 			<div className="main">
 				<div className="api-keys">
 					<h2>API Keys</h2>
-					<h3>Harvest</h3>
-					<h4>Harvest API Token</h4>
-					<input
-						type='text'
-						id='harvest-token'
-						defaultValue={localStorage.getItem('harvestToken')}
-						size={75}
-					/>
-					<h4>Harvest Account ID</h4>
-					<input
-						type='text'
-						id='harvest-account-id'
-						defaultValue={localStorage.getItem('harvestAccountId')}
-						size={50}
-					/>
-					<h3>Jira</h3>
-					<h4>Jira API Token</h4>
-					<input
-						type='text'
-						id='jira-token'
-						defaultValue={localStorage.getItem('jiraToken')}
-						size={75}
-					/>
-					<h4>Jira Email</h4>
-					<input
-						type='text'
-						id='jira-email'
-						defaultValue={localStorage.getItem('jiraEmail')}
-						size={50}
-					/>
-					<h4>Jira URL</h4>
-					<input
-						type='text'
-						id='jira-url'
-						defaultValue={localStorage.getItem('jiraUrl')}
-						size={50}
-					/>
+					<div className='harvest-api-inputs'>
+						<h3>Harvest</h3>
+						<h4>Harvest API Token</h4>
+						<TokenInput
+							showToken={showToken}
+							defaultValue={localStorage.getItem('harvestToken')}
+							setShowToken={setShowToken}
+							id='harvestToken'
+							size={75}
+						/>
+						<h4>Harvest Account ID</h4>
+						<input
+							type='text'
+							id='harvest-account-id'
+							defaultValue={localStorage.getItem('harvestAccountId')}
+							size={50}
+						/>
+					</div>
+					<div className='jira-api-inputs'>
+						<h3>Jira Profiles</h3>
+						<ul className='jira-profile-list'>
+							{jiraProfiles.map( profile => (
+								<li key={profile.id}>
+									<button
+										className='profile-btn'
+										onClick={ () => {
+											setCurrentView('jiraProfile');
+											setCurrentProfile( profile );
+										} }
+									>
+										{profile.avatarUrl && <img src={profile.avatarUrl} alt={profile.name} width='48' height='48' />}
+										{profile.name}
+									</button>
+								</li>
+							))}
+							<li key='add-profile'>
+								<button
+									className='profile-btn add-profile'
+									onClick={() => {
+										setCurrentView('jiraProfile');
+										setCurrentProfile( {} );
+									}}
+								>
+									<span role='img' aria-label='add'>+</span>
+									Add Profile
+								</button>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div className="Projects">
 					<h2>Harvest Projects</h2>
@@ -129,6 +216,7 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 									{
 										(JSON.parse(localStorage.getItem('linkedProjects')) || {})[project.id] &&
 										linkedProjects[project.id] !== '' &&
+										linkedProjects[project.id].length > 0 &&
 										(
 											<button
 												className='configure-btn'
@@ -140,9 +228,6 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 															name: project.name,
 															code: project.code
 														},
-														jira: {
-															id: linkedProjects[project.id]
-														}
 													} );
 												} }
 											>
@@ -150,30 +235,11 @@ const Settings = ( { setCurrentView, previousView, setProjectToConfigure, notifi
 											</button>
 										)
 									}
-
-									{ jiraProjects.length > 0 && (
-										<select
-											onChange={ ( e ) => {
-												if ( e.target.value === linkedProjects[project.id] ) {
-													return;
-												}
-
-												const newLinkedProjects = { ...linkedProjects, [project.id]: e.target.value };
-												setLinkedProjects( newLinkedProjects );
-											} }
-											defaultValue={linkedProjects[project.id] || ''}
-										>
-											<option value={''}>Select a Jira Project</option>
-											{jiraProjects.map( jiraProject => {return(
-												<option
-													key={jiraProject.id}
-													value={jiraProject.id}
-												>
-													{`${jiraProject.name} (${jiraProject.key})`}
-												</option>
-											)})}
-										</select>
-									) }
+									<PillBox
+										suggestions={pillSuggestions}
+										onChange={val => onPillBoxChange(val, project)}
+										selected={linkedProjects[project.id] || []}
+									/>
 								</li>
 							)})}
 						</ul>

@@ -1,0 +1,22 @@
+/**
+ * Buttons
+ */
+
+ .settings-btn {
+	font-size: 2.5rem;
+}
+
+.back-btn {
+	rotate: 180deg;
+}
+
+.save-btn {
+	font-size: inherit;
+	background: none;
+	border-radius: 999px;
+	padding: 0.5rem;
+	border: light-dark(#000, #fff) 3px solid;
+	margin-top: 0.5rem;
+	cursor: pointer;
+	grid-column: 1 / span 2;
+}

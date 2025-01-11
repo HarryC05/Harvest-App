@@ -1,0 +1,37 @@
+/**
+ * Jira Profile
+ */
+
+ /* Heading */
+.profile-info-heading {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.profile-info-heading img {
+	border-radius: 999px;
+}
+
+/* Profile Info */
+.profile-info {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+	align-items: center;
+}
+
+.profile-info h3 {
+	grid-column: span 2;
+}
+
+.profile-info-input {
+	display: grid;
+	grid-template-columns: 25% 1fr;
+	align-items: center;
+	gap: 1rem;
+}
+
+.profile-info input {
+	height: 1.5rem;
+}

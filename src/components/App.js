@@ -2,27 +2,37 @@ import { useState, useEffect } from 'react';
 
 import { getProjects, getLastTimer } from '../utils/api';
 import ProjectList from '../views/ProjectList';
-import Project from '../views/Project';
+import HarvestProject from '../views/HarvestProject';
 import Settings from '../views/Settings';
 import JiraConfig from '../views/JiraConfig';
 import Notifications from '../components/Notifications';
+import JiraProfile from '../views/JiraProfile';
 
+/**
+ * The main App component
+ *
+ * @returns {JSX.Element}
+ */
 const App = () => {
 	const [projects, setProjects] = useState([]);
 	const [selectedProject, setSelectedProject] = useState(null);
 	const [runningTask, setRunningTask] = useState(null);
 	const [currentView, setCurrentView] = useState('projectList');
-	const [previousView, setPreviouseView] = useState(null);
+	const [previousView, setPreviousView] = useState(null);
 	const [projectToConfigure, setProjectToConfigure] = useState(null);
 	const [notificationsList, setNotificationsList] = useState([]);
+	const [currentProfile, setCurrentProfile] = useState(null);
 
 	const apiAuth = {
 		harvestToken: localStorage.getItem('harvestToken'),
 		harvestAccountId: localStorage.getItem('harvestAccountId'),
-		jiraToken: localStorage.getItem('jiraToken'),
-		jiraAccountId: localStorage.getItem('jiraAccountId')
 	}
 
+	/**
+	 * Poll the latest harvest timer every 5 seconds
+	 *
+	 * @returns {void}
+	 */
 	const pollTimer = async () => {
 		const lastTimer = await getLastTimer();
 
@@ -43,6 +53,11 @@ const App = () => {
 		});
 	}
 
+	/**
+	 * Fetch the projects from the Harvest API
+	 *
+	 * @returns {void}
+	 */
 	const fetchProjects = async () => {
 		const projects = await getProjects();
 		setProjects(projects);
@@ -84,7 +99,7 @@ const App = () => {
 					projects={projects}
 					setSelectedProject={setSelectedProject}
 					setCurrentView={setCurrentView}
-					setPreviouseView={setPreviouseView}
+					setPreviousView={setPreviousView}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>
@@ -102,6 +117,7 @@ const App = () => {
 					setProjectToConfigure={setProjectToConfigure}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
+					setCurrentProfile={setCurrentProfile}
 				/>
 			</>
 		);
@@ -111,13 +127,13 @@ const App = () => {
 		return (
 			<>
 				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
-				<Project
+				<HarvestProject
 					projectData={selectedProject}
 					setSelectedProject={setSelectedProject}
 					runningTask={runningTask}
 					setRunningTask={setRunningTask}
 					setCurrentView={setCurrentView}
-					setPreviouseView={setPreviouseView}
+					setPreviousView={setPreviousView}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>
@@ -133,6 +149,21 @@ const App = () => {
 					projectToConfigure={projectToConfigure}
 					setProjectToConfigure={setProjectToConfigure}
 					setCurrentView={setCurrentView}
+					notificationsList={notificationsList}
+					setNotificationsList={setNotificationsList}
+				/>
+			</>
+		);
+	}
+
+	if (currentView === 'jiraProfile') {
+		return (
+			<>
+				<Notifications notificationsList={notificationsList} setNotificationsList={setNotificationsList} />
+				<JiraProfile
+					setCurrentView={setCurrentView}
+					currentProfile={currentProfile}
+					setCurrentProfile={setCurrentProfile}
 					notificationsList={notificationsList}
 					setNotificationsList={setNotificationsList}
 				/>

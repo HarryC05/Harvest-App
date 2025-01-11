@@ -80,7 +80,7 @@ To get started contributing:
 
 1. Create a new branch:
 ```sh
-git checkout -b feature/your-feature-name
+git checkout -b feature/#{issue number}/your-feature-name
 ```
 
 2. Commit your changes (using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) format):

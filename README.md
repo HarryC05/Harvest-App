@@ -41,7 +41,7 @@ Harvest App allows you to manage and track time efficiently with a clean user in
    - Create Jira API key [here](https://id.atlassian.com/manage-profile/security/api-tokens).
    - Go to settings and click Add Profile. Fill in all the fields:
      - Profile Name: A nickname for this profile.
-     - Jira URL: The root URL of your Jira workspace (e.g., `https://{workspace}.atlassian.net/`).
+     - Jira URL: The root URL of your Jira workspace (e.g. `https://{workspace}.atlassian.net/`).
      - Jira Email: The email associated with your Jira account.
      - Jira API Token: Use the token created earlier.
    - Repeat these steps for each Jira workspace you want to add.

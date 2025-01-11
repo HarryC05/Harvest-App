@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getCurrentSprint, getJiraColumns, getSprintTickets } from "../utils/api";
 import JiraTicket from "./JiraTicket";
 import Spinner from "./Spinner";
@@ -27,6 +27,8 @@ const JiraBoard = ( {
 	const [assigneeOptions, setAssigneeOptions] = useState([]);
 	const [loading, setLoading] = useState(false);
 
+	const boardRef = useRef(board);
+
 	/**
 	 * Fetch the boards columns
 	 *
@@ -34,7 +36,7 @@ const JiraBoard = ( {
 	 */
 	const fetchColumns = async () => {
 		// fetch the columns
-		const columnsResp = await getJiraColumns(board.id, board.info);
+		const columnsResp = await getJiraColumns(boardRef.current.id, boardRef.current.info);
 
 		// check if the response has an error
 		if ( ! columnsResp.ok ) {
@@ -43,7 +45,7 @@ const JiraBoard = ( {
 				...notificationsList,
 				{
 					type: 'error',
-					message: `Error getting Jira columns for ${board.name}`,
+					message: `Error getting Jira columns for ${boardRef.current.name}`,
 					id: 'error-getting-jira-columns',
 					disappearTime: 3000
 				}
@@ -65,7 +67,7 @@ const JiraBoard = ( {
 	const fetchTickets = async () => {
 		setLoading(true);
 		// fetch the current sprint
-		const sprintResp = await getCurrentSprint(board.id, board.info);
+		const sprintResp = await getCurrentSprint(boardRef.current.id, boardRef.current.info);
 
 		// check if the response has an error
 		if ( ! sprintResp.ok ) {
@@ -74,7 +76,7 @@ const JiraBoard = ( {
 				...notificationsList,
 				{
 					type: 'error',
-					message: `Error getting current sprint for ${board.name}`,
+					message: `Error getting current sprint for ${boardRef.current.name}`,
 					id: 'error-getting-current-sprint',
 					disappearTime: 3000
 				}
@@ -88,7 +90,7 @@ const JiraBoard = ( {
 		setCurrentSprint(sprintJSON.values[0]);
 
 		// fetch the tickets
-		const ticketsResp = await getSprintTickets(sprintJSON.values[0].id, board.info);
+		const ticketsResp = await getSprintTickets(sprintJSON.values[0].id, boardRef.current.info);
 
 		// check if the response has an error
 		if ( ! ticketsResp.ok ) {
@@ -97,7 +99,7 @@ const JiraBoard = ( {
 				...notificationsList,
 				{
 					type: 'error',
-					message: `Error getting tickets for ${board.name}`,
+					message: `Error getting tickets for ${boardRef.current.name}`,
 					id: 'error-getting-tickets',
 					disappearTime: 3000
 				}
@@ -130,10 +132,10 @@ const JiraBoard = ( {
 		}
 
 		// if the current user is there, change the value to 'Current User' and move it to the front
-		if ( tempAssigneeOptions[board.info.email] ) {
-			tempAssigneeOptions[board.info.email] = 'Current User';
+		if ( tempAssigneeOptions[boardRef.current.info.email] ) {
+			tempAssigneeOptions[boardRef.current.info.email] = 'Current User';
 			tempAssigneeOptions = {
-				[board.info.email]: 'Current User',
+				[boardRef.current.info.email]: 'Current User',
 				...tempAssigneeOptions
 			};
 		}
@@ -167,16 +169,11 @@ const JiraBoard = ( {
 		]);
 	};
 
-	/**
-	 * Poll the tickets every 15 seconds
-	 *
-	 * @returns {void}
-	 */
-	const pollTickets = async () => {
-		await fetchTickets();
+	useEffect(() => {
+		const pollTickets = async () => {
+			await fetchTickets();
 	};
 
-	useEffect(() => {
 		const interval = setInterval(() => {
 			pollTickets();
 		} , 15000);
@@ -185,9 +182,10 @@ const JiraBoard = ( {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
+		boardRef.current = board;
 		fetchColumns();
 		fetchTickets();
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+}, [board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="jira-board">

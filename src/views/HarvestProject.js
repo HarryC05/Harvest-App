@@ -82,15 +82,16 @@ const HarvestProject = ({
 	 *
 	 * @param {object}        task - The task object
 	 * @param {string | null} note - The note to be added to the task
+	 * @param {boolean}       jiraTask - Whether the task is a Jira task or not
 	 *
 	 * @returns {void}
 	 */
-	const onTaskClick = async (task, note = null) => {
-		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && runningTask.notes === note) {
+	const onTaskClick = async (task, note = null, jiraTask = false) => {
+		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && !jiraTask) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;
-		} else if (runningTask) {
+		} else if (runningTask && jiraTask) {
 			await stopTimer(runningTask.time_entry_id);
 		}
 

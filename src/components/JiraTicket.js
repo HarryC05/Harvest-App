@@ -21,25 +21,33 @@ const JiraTicket = ({
 }) => {
 	const jiraConfig = JSON.parse(localStorage.getItem('linkedHarvestTasks'))?.[`${board.name}-${board.id}`] || {};
 
+	/**
+	 * Handle the timer button click
+	 *
+	 * @returns {void}
+	 */
+	const onTimerClick = () => {
+		const id = jiraConfig?.[column.name] || null;
+
+		if ( ! id ) {
+			return;
+		}
+
+		startTimer(
+			{
+				task: { id }
+			},
+			`${ticket.key}: ${ticket.fields.summary}`,
+			true,
+		)
+	};
+
 	return (
 		<li key={key} className="jira-ticket-card">
 			<button
 				className="jira-ticket-timerBtn"
 				title="Start Timer"
-				onClick={() => {
-					const id = jiraConfig?.[column.name] || null;
-
-					if ( ! id ) {
-						return;
-					}
-
-					startTimer(
-						{
-							task: { id }
-						},
-						`${ticket.key}: ${ticket.fields.summary}`
-					)
-				}}
+				onClick={onTimerClick}
 			>
 				⏱
 			</button>

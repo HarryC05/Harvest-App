@@ -113,7 +113,7 @@ const HarvestProject = ({
 
 	useEffect(() => {
 		fetchAllBoards();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div>

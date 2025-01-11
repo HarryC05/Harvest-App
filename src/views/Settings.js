@@ -137,7 +137,7 @@ const Settings = ( {
 
 	useEffect( () => {
 		getProjectData();
-	}, [] );
+	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div id="settings">

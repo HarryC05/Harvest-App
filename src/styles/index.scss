@@ -1,23 +1,23 @@
 /**
  * View styles
  */
-@import url('./views/Settings');
-@import url('./views/JiraProfile');
-@import url('./views/JiraConfig');
-@import url('./views/ProjectList');
-@import url('./views/HarvestProject');
-@import url('./views/NoAuth');
+@import './views/Settings';
+@import './views/JiraProfile';
+@import './views/JiraConfig';
+@import './views/ProjectList';
+@import './views/HarvestProject';
+@import './views/NoAuth';
 
 /**
  * Component styles
  */
-@import url('./components/Notifications');
-@import url('./components/buttons');
-@import url('./components/Spinner');
-@import url('./components/PillBox');
-@import url('./components/TokenInput');
-@import url('./components/JiraBoard');
-@import url('./components/JiraTicket');
+@import './components/Notifications';
+@import './components/buttons';
+@import './components/Spinner';
+@import './components/PillBox';
+@import './components/TokenInput';
+@import './components/JiraBoard';
+@import './components/JiraTicket';
 
 /**
  * Global styles

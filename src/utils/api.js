@@ -1,22 +1,22 @@
 // -------------------------- Harvest API --------------------------
 /**
- * @group HarvestAPI
+ * @namespace HarvestAPI
  * @description Functions to interact with the Harvest API
  */
 
 // Harvest API tokens and configuration
-const TOKEN = localStorage.getItem( 'harvestToken' );
-const ACCOUNTID = localStorage.getItem( 'harvestAccountId' );
+const TOKEN = localStorage.getItem('harvestToken');
+const ACCOUNTID = localStorage.getItem('harvestAccountId');
 
 // Create global Headers
 const headers = {
 	harvest: {
-		'Authorization': `Bearer ${TOKEN}`,
+		Authorization: `Bearer ${TOKEN}`,
 		'Harvest-Account-ID': ACCOUNTID,
 		'User-Agent': 'Harvest API Example',
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
 	},
-}
+};
 
 /**
  * Fetch the projects from the Harvest API
@@ -24,20 +24,23 @@ const headers = {
  * @returns {object} projectData - The projects data
  */
 export const getProjects = async () => {
-	if ( !TOKEN || !ACCOUNTID ) {
+	if (!TOKEN || !ACCOUNTID) {
 		return [];
 	}
 
-	const response = await fetch('https://api.harvestapp.com/v2/users/me/project_assignments', {
-		method: 'GET',
-		headers: headers.harvest,
-	});
+	const response = await fetch(
+		'https://api.harvestapp.com/v2/users/me/project_assignments',
+		{
+			method: 'GET',
+			headers: headers.harvest,
+		}
+	);
 	const data = await response.json();
 
 	const projectsData = data.project_assignments;
 
 	return projectsData;
-}
+};
 
 /**
  * Fetch a project from the Harvest API
@@ -47,15 +50,15 @@ export const getProjects = async () => {
  * @returns {object} project - The project data
  */
 export const getProject = async (projectId) => {
-	if ( !TOKEN || !ACCOUNTID ) {
+	if (!TOKEN || !ACCOUNTID) {
 		return [];
 	}
 	const projects = await getProjects();
 
-	const project = projects.find(project => project.project.id === projectId);
+	const project = projects.find((project) => project.project.id === projectId);
 
 	return project;
-}
+};
 
 /**
  * Start a timer
@@ -66,7 +69,7 @@ export const getProject = async (projectId) => {
  * @returns {object} data - The response data
  */
 export const startTimer = async (task, notes = '') => {
-	if ( !TOKEN || !ACCOUNTID ) {
+	if (!TOKEN || !ACCOUNTID) {
 		return [];
 	}
 
@@ -78,7 +81,7 @@ export const startTimer = async (task, notes = '') => {
 		project_id: task.project_id,
 		task_id: task.task_id,
 		spent_date: localISOTime,
-		notes
+		notes,
 	});
 
 	const response = await fetch('https://api.harvestapp.com/v2/time_entries', {
@@ -90,7 +93,7 @@ export const startTimer = async (task, notes = '') => {
 	const data = await response.json();
 
 	return data;
-}
+};
 
 /**
  * Stop a timer
@@ -100,19 +103,22 @@ export const startTimer = async (task, notes = '') => {
  * @returns {object} data - The response data
  */
 export const stopTimer = async (time_entry_id) => {
-	if ( !TOKEN || !ACCOUNTID ) {
+	if (!TOKEN || !ACCOUNTID) {
 		return [];
 	}
 
-	const response = await fetch(`https://api.harvestapp.com/v2/time_entries/${time_entry_id}/stop`, {
-		method: 'PATCH',
-		headers: headers.harvest,
-	});
+	const response = await fetch(
+		`https://api.harvestapp.com/v2/time_entries/${time_entry_id}/stop`,
+		{
+			method: 'PATCH',
+			headers: headers.harvest,
+		}
+	);
 
 	const data = await response.json();
 
 	return data;
-}
+};
 
 /**
  * Get the latest running timer
@@ -120,24 +126,27 @@ export const stopTimer = async (time_entry_id) => {
  * @returns {object} data - The response data
  */
 export const getLastTimer = async () => {
-	if ( !TOKEN || !ACCOUNTID ) {
+	if (!TOKEN || !ACCOUNTID) {
 		return [];
 	}
 
-	const response = await fetch('https://api.harvestapp.com/v2/time_entries?is_running=true', {
-		method: 'GET',
-		headers: headers.harvest,
-	});
+	const response = await fetch(
+		'https://api.harvestapp.com/v2/time_entries?is_running=true',
+		{
+			method: 'GET',
+			headers: headers.harvest,
+		}
+	);
 
 	const data = await response.json();
 
 	return data;
-}
+};
 
 // ---------------------------- JIRA API ----------------------------
 
 /**
- * @group JiraAPI
+ * @namespace JiraAPI
  * @description Functions to interact with the Jira API
  */
 
@@ -151,26 +160,25 @@ export const getLastTimer = async () => {
  *
  * @returns {Promise} response - The response object
  */
-export const getJiraProjects = async ( {token, email, url} ) => {
+export const getJiraProjects = async ({ token, email, url }) => {
 	if (!token || !email || !url) {
-			return [];
+		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
 	const response = await fetch('/rest/api/3/project', {
-			method: 'GET',
-			headers: header,
+		method: 'GET',
+		headers: header,
 	});
 
 	return response;
 };
-
 
 /**
  * Fetch the boards from the Jira API
@@ -183,21 +191,21 @@ export const getJiraProjects = async ( {token, email, url} ) => {
  *
  * @returns {Promise} response - The response object
  */
-export const getJiraBoards = async (id, {token, email, url}) => {
+export const getJiraBoards = async (id, { token, email, url }) => {
 	if (!token || !email || !url) {
-			return [];
+		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
 	const response = await fetch(`/rest/agile/1.0/board?projectKeyOrId=${id}`, {
-			method: 'GET',
-			headers: header,
+		method: 'GET',
+		headers: header,
 	});
 
 	return response;
@@ -214,22 +222,25 @@ export const getJiraBoards = async (id, {token, email, url}) => {
  *
  * @returns {Promise} response - The response object
  */
-export const getJiraColumns = async (boardId, {token, email, url}) => {
+export const getJiraColumns = async (boardId, { token, email, url }) => {
 	if (!token || !email || !url) {
-			return [];
+		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
-	const response = await fetch(`/rest/agile/1.0/board/${boardId}/configuration`, {
+	const response = await fetch(
+		`/rest/agile/1.0/board/${boardId}/configuration`,
+		{
 			method: 'GET',
 			headers: header,
-	});
+		}
+	);
 
 	return response;
 };
@@ -244,22 +255,22 @@ export const getJiraColumns = async (boardId, {token, email, url}) => {
  *
  * @returns {Promise} response - The response object
  */
-export const getProfile = async ( {url, email, token} ) => {
+export const getProfile = async ({ url, email, token }) => {
 	if (!token || !email || !url) {
 		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
 	// set the priority of the request to be as high as possible
 	const response = await fetch('/rest/api/3/myself', {
-			method: 'GET',
-			headers: header,
+		method: 'GET',
+		headers: header,
 	});
 
 	return response;
@@ -268,30 +279,33 @@ export const getProfile = async ( {url, email, token} ) => {
 /**
  * Fetch the current sprint from the Jira API
  *
- * @param {number} boardId - The board ID
- * @param {object} auth    - The object containing the authentication data
+ * @param {number} boardId    - The board ID
+ * @param {object} auth       - The object containing the authentication data
  * @param {string} auth.token - The Jira API token
  * @param {string} auth.email - The Jira API email
  * @param {string} auth.url   - The Jira API URL
  *
  * @returns {Promise} response - The response object
  */
-export const getCurrentSprint = async (boardId, {token, email, url}) => {
+export const getCurrentSprint = async (boardId, { token, email, url }) => {
 	if (!token || !email || !url) {
 		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
-	const response = await fetch(`/rest/agile/1.0/board/${boardId}/sprint?state=active`, {
-		method: 'GET',
-		headers: header,
-	});
+	const response = await fetch(
+		`/rest/agile/1.0/board/${boardId}/sprint?state=active`,
+		{
+			method: 'GET',
+			headers: header,
+		}
+	);
 
 	return response;
 };
@@ -307,22 +321,25 @@ export const getCurrentSprint = async (boardId, {token, email, url}) => {
  *
  * @returns {Promise} response - The response object
  */
-export const getSprintTickets = async (sprintId, {token, email, url}) => {
+export const getSprintTickets = async (sprintId, { token, email, url }) => {
 	if (!token || !email || !url) {
 		return [];
 	}
 
 	const header = {
-		'Authorization': `Basic ${btoa(`${email}:${token}`)}`,
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
 		'Content-Type': 'application/json',
 		'User-Agent': 'JIRA API Example',
-		'X-Target-URL': url ? `${url}/rest` : ''
+		'X-Target-URL': url ? `${url}/rest` : '',
 	};
 
-	const response = await fetch(`/rest/agile/1.0/sprint/${sprintId}/issue?maxResults=100`, {
-		method: 'GET',
-		headers: header,
-	});
+	const response = await fetch(
+		`/rest/agile/1.0/sprint/${sprintId}/issue?maxResults=100`,
+		{
+			method: 'GET',
+			headers: header,
+		}
+	);
 
 	return response;
 };

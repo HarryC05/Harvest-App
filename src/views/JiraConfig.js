@@ -1,26 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { getJiraBoards, getJiraColumns, getProject } from "../utils/api";
+import { getJiraBoards, getJiraColumns, getProject } from '../utils/api';
 
 /**
  * The Jira Configuration view element
  *
  * @param {object}   props                       - The props object
  * @param {object}   props.projectToConfigure    - The object containing the data for the project to configure
- * @param {function} props.setProjectToConfigure - The function to set the project to configure
- * @param {function} props.setCurrentView        - The function to set the current view
- * @param {array}    props.notificationsList     - The list of notifications
- * @param {function} props.setNotificationsList  - The function to set the notifications list
+ * @param {Function} props.setProjectToConfigure - The function to set the project to configure
+ * @param {Function} props.setCurrentView        - The function to set the current view
+ * @param {Array}    props.notificationsList     - The list of notifications
+ * @param {Function} props.setNotificationsList  - The function to set the notifications list
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The Jira Configuration view element
  */
-const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView, notificationsList, setNotificationsList } ) => {
+const JiraConfig = ({
+	projectToConfigure,
+	setProjectToConfigure,
+	setCurrentView,
+	notificationsList,
+	setNotificationsList,
+}) => {
 	const [projectData, setProjectData] = useState({});
 	const [jiraBoards, setJiraBoards] = useState({});
 	const [selectedBoard, setSelectedBoard] = useState(null);
 	const [columns, setColumns] = useState({});
 	const [harvestTasks, setHarvestTasks] = useState({});
-	const jiraProjects = JSON.parse(localStorage.getItem('linkedProjects'))?.[projectToConfigure.harvest.id] || {};
+	const jiraProjects =
+		JSON.parse(localStorage.getItem('linkedProjects'))?.[
+			projectToConfigure.harvest.id
+		] || {};
 	const jiraProfiles = JSON.parse(localStorage.getItem('jiraProfiles')) || [];
 
 	/**
@@ -31,7 +40,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 	const fetchProjectData = async () => {
 		const project = await getProject(projectToConfigure.harvest.id);
 		setProjectData(project);
-	}
+	};
 
 	/**
 	 * Fetch all Jira boards for the linked projects
@@ -41,11 +50,13 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 	const fetchJiraBoards = async () => {
 		const tempBoardData = {};
 		for (const project of jiraProjects) {
-			const profile = jiraProfiles.find(profile => profile.id === project.info.id);
+			const profile = jiraProfiles.find(
+				(profile) => profile.id === project.info.id
+			);
 			const boards = await getJiraBoards(project.id, profile);
 
 			// check if the response has an error
-			if ( ! boards.ok ) {
+			if (!boards.ok) {
 				// show error message
 				setNotificationsList([
 					...notificationsList,
@@ -53,8 +64,8 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 						type: 'error',
 						message: `Error getting Jira boards for ${project.name}`,
 						id: 'error-getting-jira-boards',
-						disappearTime: 3000
-					}
+						disappearTime: 3000,
+					},
 				]);
 				return;
 			}
@@ -63,12 +74,12 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 
 			const boardData = boardsJSON.values;
 
-			boardData.forEach( board => {
+			boardData.forEach((board) => {
 				tempBoardData[`${board.name}-${board.id}`] = {
 					...board,
 					info: project.info,
 				};
-			} );
+			});
 		}
 
 		setJiraBoards(tempBoardData);
@@ -89,12 +100,14 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 		// get the board
 		const board = jiraBoards[selectedBoard];
 
-		const profile = jiraProfiles.find(profile => profile.id === board.info.id);
+		const profile = jiraProfiles.find(
+			(profile) => profile.id === board.info.id
+		);
 
 		const response = await getJiraColumns(board.id, profile);
 
 		// check if the response has an error
-		if ( ! response.ok ) {
+		if (!response.ok) {
 			// show error message
 			setNotificationsList([
 				...notificationsList,
@@ -102,8 +115,8 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 					type: 'error',
 					message: `Error getting Jira columns for ${board.name}`,
 					id: 'error-getting-jira-columns',
-					disappearTime: 3000
-				}
+					disappearTime: 3000,
+				},
 			]);
 			return;
 		}
@@ -140,20 +153,22 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 	useEffect(() => {
 		fetchProjectData();
 		fetchJiraBoards();
-		setHarvestTasks(JSON.parse(localStorage.getItem('linkedHarvestTasks')) || {});
+		setHarvestTasks(
+			JSON.parse(localStorage.getItem('linkedHarvestTasks')) || {}
+		);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (selectedBoard) {
 			fetchColumns();
 		}
-	} , [selectedBoard]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [selectedBoard]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div id="jira-config">
 			<div className="heading">
 				<button
-					className='back-btn'
+					className="back-btn"
 					onClick={() => {
 						setCurrentView('settings');
 						setProjectToConfigure(null);
@@ -167,7 +182,7 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 				<h2>Boards</h2>
 				{/** Tabs to select each board */}
 				<div className="tabs">
-					{Object.keys(jiraBoards).map( board => {
+					{Object.keys(jiraBoards).map((board) => {
 						return (
 							<button
 								key={board}
@@ -186,30 +201,36 @@ const JiraConfig = ( { projectToConfigure, setProjectToConfigure, setCurrentView
 					<h3>Columns</h3>
 					{/** Columns */}
 					<ul className="columns">
-						{columns[selectedBoard] && columns[selectedBoard].map( column => {
-							return (
-								<li key={column.name}>
-									<span>{column.name}</span>
-									<select
-										value={harvestTasks?.[selectedBoard]?.[column.name] || ''}
-										onChange={(e) => setTask(e, column.name)}
-									>
-										<option value=''>Select a Harvest Task</option>
-										{projectData.task_assignments.map( task_assignment => {
-											const task = task_assignment.task;
-											return (
-												<option key={`${jiraBoards[selectedBoard].name}-${task.id}`} value={task.id}>{task.name}</option>
-											);
-										})}
-									</select>
-								</li>
-							);
-						})}
+						{columns[selectedBoard] &&
+							columns[selectedBoard].map((column) => {
+								return (
+									<li key={column.name}>
+										<span>{column.name}</span>
+										<select
+											value={harvestTasks?.[selectedBoard]?.[column.name] || ''}
+											onChange={(e) => setTask(e, column.name)}
+										>
+											<option value="">Select a Harvest Task</option>
+											{projectData.task_assignments.map((task_assignment) => {
+												const task = task_assignment.task;
+												return (
+													<option
+														key={`${jiraBoards[selectedBoard].name}-${task.id}`}
+														value={task.id}
+													>
+														{task.name}
+													</option>
+												);
+											})}
+										</select>
+									</li>
+								);
+							})}
 					</ul>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default JiraConfig;

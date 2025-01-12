@@ -9,15 +9,15 @@ import JiraBoard from '../components/JiraBoard';
  *
  * @param {object}   props                      - The props object
  * @param {object}   props.projectData          - The object containing the data for the project
- * @param {function} props.setSelectedProject   - The function to set the selected project
+ * @param {Function} props.setSelectedProject   - The function to set the selected project
  * @param {object}   props.runningTask          - The object containing the info for the running task that is currently running
- * @param {function} props.setRunningTask       - The function to set the currently running task
- * @param {function} props.setCurrentView       - The function to set the current view
- * @param {function} props.setPreviousView      - The function to set the previous view (used for the back button)
- * @param {array}    props.notificationsList    - The list of notifications
- * @param {function} props.setNotificationsList - The function to set the notifications list
+ * @param {Function} props.setRunningTask       - The function to set the currently running task
+ * @param {Function} props.setCurrentView       - The function to set the current view
+ * @param {Function} props.setPreviousView      - The function to set the previous view (used for the back button)
+ * @param {Array}    props.notificationsList    - The list of notifications
+ * @param {Function} props.setNotificationsList - The function to set the notifications list
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The Harvest Project view element
  */
 const HarvestProject = ({
 	projectData,
@@ -27,13 +27,14 @@ const HarvestProject = ({
 	setCurrentView,
 	setPreviousView,
 	notificationsList,
-	setNotificationsList
+	setNotificationsList,
 }) => {
-	const linkedProjects = JSON.parse(localStorage.getItem('linkedProjects')) || {};
+	const linkedProjects =
+		JSON.parse(localStorage.getItem('linkedProjects')) || {};
 	const jiraProjects = linkedProjects[projectData.project.id] || [];
 
-	const [ boards, setBoards ] = useState([]);
-	const [ selectedBoard, setSelectedBoard ] = useState(null);
+	const [boards, setBoards] = useState([]);
+	const [selectedBoard, setSelectedBoard] = useState(null);
 
 	/**
 	 * Fetch all boards for the harvest project
@@ -47,7 +48,7 @@ const HarvestProject = ({
 			const boardsResp = await getJiraBoards(project.id, project.info);
 
 			// check if the response has an error
-			if ( ! boardsResp.ok ) {
+			if (!boardsResp.ok) {
 				// show error message
 				setNotificationsList([
 					...notificationsList,
@@ -55,8 +56,8 @@ const HarvestProject = ({
 						type: 'error',
 						message: `Error getting Jira boards for ${project.name}`,
 						id: 'error-getting-jira-boards',
-						disappearTime: 3000
-					}
+						disappearTime: 3000,
+					},
 				]);
 				return;
 			}
@@ -65,12 +66,12 @@ const HarvestProject = ({
 
 			const boardData = boardsJSON.values;
 
-			boardData.forEach( board => {
+			boardData.forEach((board) => {
 				tempBoardData[`${board.name}-${board.id}`] = {
 					...board,
 					info: project.info,
 				};
-			} );
+			});
 		}
 
 		setBoards(tempBoardData);
@@ -80,14 +81,19 @@ const HarvestProject = ({
 	/**
 	 * Start or stop a timer for a task
 	 *
-	 * @param {object}        task - The task object
-	 * @param {string | null} note - The note to be added to the task
+	 * @param {object}        task     - The task object
+	 * @param {string | null} note     - The note to be added to the task
 	 * @param {boolean}       jiraTask - Whether the task is a Jira task or not
 	 *
 	 * @returns {void}
 	 */
 	const onTaskClick = async (task, note = null, jiraTask = false) => {
-		if (runningTask && parseInt(runningTask.task_id) === parseInt(task.task.id) && runningTask.project_id === projectData.project.id && !jiraTask) {
+		if (
+			runningTask &&
+			parseInt(runningTask.task_id) === parseInt(task.task.id) &&
+			runningTask.project_id === projectData.project.id &&
+			!jiraTask
+		) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;
@@ -98,7 +104,7 @@ const HarvestProject = ({
 		const response = await startTimer(
 			{
 				project_id: projectData.project.id,
-				task_id: task.task.id
+				task_id: task.task.id,
 			},
 			note
 		);
@@ -108,8 +114,8 @@ const HarvestProject = ({
 			task_id: task.task.id,
 			time_entry_id: response.id,
 			timer_started_at: response.timer_started_at,
-			notes: note
-		 });
+			notes: note,
+		});
 	};
 
 	useEffect(() => {
@@ -120,7 +126,7 @@ const HarvestProject = ({
 		<div>
 			<div className="heading">
 				<button
-					className='back-btn'
+					className="back-btn"
 					onClick={() => {
 						setSelectedProject(null);
 						setCurrentView('projectList');
@@ -130,7 +136,7 @@ const HarvestProject = ({
 				</button>
 				<h1 id={projectData.project.id}>{projectData.project.name}</h1>
 				<button
-					className='settings-btn'
+					className="settings-btn"
 					onClick={() => {
 						setCurrentView('settings');
 						setPreviousView('project');
@@ -139,8 +145,8 @@ const HarvestProject = ({
 					⚙
 				</button>
 			</div>
-			<div className='main'>
-				<ul className='task-wrapper'>
+			<div className="main">
+				<ul className="task-wrapper">
 					{projectData.task_assignments.map((task) => (
 						<li
 							key={task.task.id}
@@ -149,18 +155,27 @@ const HarvestProject = ({
 							onClick={() => onTaskClick(task)}
 						>
 							{task.task.name}
-							{runningTask && runningTask.task_id === task.task.id && runningTask.project_id === projectData.project.id && runningTask.notes && <span className='notes'>{runningTask.notes}</span>}
-							{runningTask && runningTask.task_id === task.task.id && runningTask.project_id === projectData.project.id && <Timer start={runningTask.timer_started_at} />}
+							{runningTask &&
+								runningTask.task_id === task.task.id &&
+								runningTask.project_id === projectData.project.id &&
+								runningTask.notes && (
+									<span className="notes">{runningTask.notes}</span>
+								)}
+							{runningTask &&
+								runningTask.task_id === task.task.id &&
+								runningTask.project_id === projectData.project.id && (
+									<Timer start={runningTask.timer_started_at} />
+								)}
 						</li>
 					))}
 				</ul>
 			</div>
 			{Object.keys(boards).length > 0 && (
-				<div className='jira-boards'>
+				<div className="jira-boards">
 					<h2>Jira Boards</h2>
 					{/* Tabs to select each board */}
 					<div className="tabs">
-						{Object.keys(boards).map( board => {
+						{Object.keys(boards).map((board) => {
 							return (
 								<button
 									key={board}
@@ -184,7 +199,7 @@ const HarvestProject = ({
 				</div>
 			)}
 		</div>
-	)
-}
+	);
+};
 
 export default HarvestProject;

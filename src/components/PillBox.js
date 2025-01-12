@@ -4,14 +4,14 @@ import { useState } from 'react';
  * PillBox component
  *
  * @param {object}   props             - Props
- * @param {array}    props.suggestions - List of suggestions
- * @param {function} props.onChange    - Function to call when the value changes
- * @param {array}    props.selected    - Selected tags
+ * @param {Array}    props.suggestions - List of suggestions
+ * @param {Function} props.onChange    - Function to call when the value changes
+ * @param {Array}    props.selected    - Selected tags
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The PillBox component
  */
-const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
-	const [tags, setTags] = useState([ ...selected ]);
+const PillBox = ({ suggestions = [], onChange, selected = [] }) => {
+	const [tags, setTags] = useState([...selected]);
 	const [inputValue, setInputValue] = useState('');
 	const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 
@@ -29,7 +29,8 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		if (value) {
 			const filtered = suggestions.filter(
 				(suggestion) =>
-					suggestion.value.toLowerCase().includes(value.toLowerCase()) && !tags.includes(suggestion)
+					suggestion.value.toLowerCase().includes(value.toLowerCase()) &&
+					!tags.includes(suggestion)
 			);
 			setFilteredSuggestions(filtered);
 		} else {
@@ -40,12 +41,12 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 	/**
 	 * Add a tag to the list
 	 *
-	 * @param {array} tag - The tag to add
+	 * @param {Array} tag - The tag to add
 	 *
 	 * @returns {void}
 	 */
 	const addTag = (tag) => {
-		if ( !tags.includes(tag) ) {
+		if (!tags.includes(tag)) {
 			const newTags = [...tags, tag];
 			setTags(newTags);
 			setInputValue('');
@@ -77,16 +78,12 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 		<div className="pillbox-container">
 			<div className="pillbox-inputs">
 				<div className="pillbox-pills">
-				{tags.map((tag) => (
-					<div
-						className="pillbox-pill"
-						key={tag.uuid}
-						title={tag.info}
-					>
-						<span>{tag.value}</span>
-						<button onClick={() => removeTag(tag)}>x</button>
-					</div>
-				))}
+					{tags.map((tag) => (
+						<div className="pillbox-pill" key={tag.uuid} title={tag.info}>
+							<span>{tag.value}</span>
+							<button onClick={() => removeTag(tag)}>x</button>
+						</div>
+					))}
 				</div>
 				<input
 					type="text"
@@ -110,6 +107,6 @@ const PillBox = ( { suggestions = [], onChange, selected = [] } ) => {
 			)}
 		</div>
 	);
-}
+};
 
 export default PillBox;

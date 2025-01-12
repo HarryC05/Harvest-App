@@ -1,8 +1,8 @@
 /**
  * Spinner component
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The Spinner component
  */
-const Spinner = () => <div id='spinner' title='Loading...' />;
+const Spinner = () => <div id="spinner" title="Loading..." />;
 
 export default Spinner;

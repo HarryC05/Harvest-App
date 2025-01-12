@@ -4,8 +4,8 @@
 
  /* Heading */
 .profile-info-heading {
-	display: flex;
 	align-items: center;
+	display: flex;
 	gap: 1rem;
 }
 
@@ -15,10 +15,10 @@
 
 /* Profile Info */
 .profile-info {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 2rem;
 	align-items: center;
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: 1fr 1fr;
 }
 
 .profile-info h3 {
@@ -26,10 +26,10 @@
 }
 
 .profile-info-input {
-	display: grid;
-	grid-template-columns: 25% 1fr;
 	align-items: center;
+	display: grid;
 	gap: 1rem;
+	grid-template-columns: 25% 1fr;
 }
 
 .profile-info input {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import Timer from '../components/Timer';
 import { startTimer, stopTimer, getJiraBoards } from '../utils/api';
 import JiraBoard from '../components/JiraBoard';
+import HarvestTask from '../components/HarvestTask';
 
 /**
  * The Harvest Project view element
@@ -92,12 +92,13 @@ const HarvestProject = ({
 			runningTask &&
 			parseInt(runningTask.task_id) === parseInt(task.task.id) &&
 			runningTask.project_id === projectData.project.id &&
+			note === runningTask.notes &&
 			!jiraTask
 		) {
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;
-		} else if (runningTask && jiraTask) {
+		} else if (runningTask) {
 			await stopTimer(runningTask.time_entry_id);
 		}
 
@@ -148,25 +149,13 @@ const HarvestProject = ({
 			<div className="main">
 				<ul className="task-wrapper">
 					{projectData.task_assignments.map((task) => (
-						<li
+						<HarvestTask
 							key={task.task.id}
-							id={task.task.id}
-							className={`task ${runningTask && runningTask.task_id === task.task.id && runningTask.project_id === projectData.project.id ? 'running' : ''}`}
-							onClick={() => onTaskClick(task)}
-						>
-							{task.task.name}
-							{runningTask &&
-								runningTask.task_id === task.task.id &&
-								runningTask.project_id === projectData.project.id &&
-								runningTask.notes && (
-									<span className="notes">{runningTask.notes}</span>
-								)}
-							{runningTask &&
-								runningTask.task_id === task.task.id &&
-								runningTask.project_id === projectData.project.id && (
-									<Timer start={runningTask.timer_started_at} />
-								)}
-						</li>
+							task={task}
+							runningTask={runningTask}
+							onTaskClick={onTaskClick}
+							projectData={projectData}
+						/>
 					))}
 				</ul>
 			</div>

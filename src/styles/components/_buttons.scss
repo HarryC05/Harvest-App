@@ -3,20 +3,20 @@
  */
 
  .settings-btn {
-	font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 
 .back-btn {
-	rotate: 180deg;
+  rotate: 180deg;
 }
 
 .save-btn {
-	background: none;
-	border: light-dark(#000, #fff) 3px solid;
-	border-radius: 999px;
-	cursor: pointer;
-	font-size: inherit;
-	grid-column: 1 / span 2;
-	margin-top: 0.5rem;
-	padding: 0.5rem;
+  background: none;
+  border: light-dark(#000, #fff) 3px solid;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: inherit;
+  grid-column: 1 / span 2;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
 }

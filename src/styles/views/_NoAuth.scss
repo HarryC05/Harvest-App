@@ -2,22 +2,22 @@
  * No Auth Styles
  */
 .noAuth {
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	justify-content: center;
-	text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  text-align: center;
 }
 
 .noAuth button {
-	background: none;
-	border: 1px solid light-dark(#000, #fff);
-	border-radius: 999px;
-	cursor: pointer;
-	padding: 1rem;
+  background: none;
+  border: 1px solid light-dark(#000, #fff);
+  border-radius: 999px;
+  cursor: pointer;
+  padding: 1rem;
 }
 
 .noAuth button h3 {
-	margin: 0;
+  margin: 0;
 }

@@ -1,0 +1,69 @@
+/**
+ * HarvestTask component style
+ */
+
+.task {
+  align-items: center;
+  border: 1px solid light-dark(#eaeaea, #666);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.5rem;
+  padding: 1.25rem;
+  transition: all 0.3s;
+  position: relative;
+
+  .add-note-btn {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    background: light-dark(#eaeaea, #666);
+    border: none;
+    border-radius: 5px;
+    padding: 0.4rem;
+    line-height: 1rem;
+    font-size: 1rem;
+  }
+
+  &:hover .add-note-btn {
+    display: block;
+  }
+}
+
+/**
+ * Note Modal
+ */
+.note-modal {
+  .modal-body{
+    display: flex;
+    flex-direction: column;
+
+    .note-input {
+      textarea {
+        border: 1px solid light-dark(#eaeaea, #666);
+        border-radius: 5px;
+        font-size: 1rem;
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+      }
+    }
+
+    .start-timer-btn {
+      background: light-dark(#f5f5f5, #333);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+
+      &:hover {
+        background: light-dark(#fafafa, #444);
+      }
+    }
+  }
+}

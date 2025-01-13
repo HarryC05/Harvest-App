@@ -2,53 +2,53 @@
  * Settings Styles
  */
 #settings {
-	justify-content: start;
+  justify-content: start;
 }
 
 #settings .main {
-	display: grid;
-	gap: 2rem;
-	grid-template-columns: 50% 50%;
-	margin-bottom: 3rem;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 50% 50%;
+  margin-bottom: 3rem;
 }
 
 /* Project List Styles */
 #settings ul.project-list {
-	list-style: none;
-	padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 #settings ul.project-list li {
-	align-items: center;
-	display: flex;
-	gap: 0.5rem;
-	justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 /* Profile Styles */
 .jira-profile-list {
-	align-items: center;
-	display: flex;
-	gap: 1rem;
-	list-style: none;
-	padding: 0;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
 }
 
 .profile-btn {
-	align-items: center;
-	background: none;
-	border: none;
-	cursor: pointer;
-	display: grid;
-	gap: 0.25rem;
-	justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  justify-content: center;
 }
 
 .profile-btn img {
-	border-radius: 999px;
-	justify-self: center;
+  border-radius: 999px;
+  justify-self: center;
 }
 
 .add-profile span{
-	font-size: 2.6rem;
+  font-size: 2.6rem;
 }

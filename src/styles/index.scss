@@ -18,42 +18,44 @@
 @import './components/TokenInput';
 @import './components/JiraBoard';
 @import './components/JiraTicket';
+@import './components/HarvestTask';
+@import './components/Modal';
 
 /**
  * Global styles
  */
 :root {
-	color-scheme: light dark;
+  color-scheme: light dark;
 }
 
 body {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-		Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	margin: 0 5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 5rem;
 }
 
 #root {
-	position: relative;
+  position: relative;
 }
 
 .heading {
-	align-items: center;
-	display: flex;
-	gap: 0.5rem;
-	justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 .heading button {
-	background: none;
-	border: light-dark(#000, #fff) 3px solid;
-	border-radius: 1.5rem;
-	cursor: pointer;
-	font-size: 1.5rem;
-	height: 3rem;
-	width: 3rem;
+  background: none;
+  border: light-dark(#000, #fff) 3px solid;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 /**
@@ -61,26 +63,26 @@ body {
  */
 
  .tabs {
-	display: flex;
-	overflow: scroll;
+  display: flex;
+  overflow: scroll;
 }
 
 .tab.selected {
-	background: light-dark(#f5f5f5, #333);
-	border-bottom: none;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
+  background: light-dark(#f5f5f5, #333);
+  border-bottom: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .tab {
-	background: none;
-	border: none;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	font-size: 1rem;
-	padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .tab:hover {
-	background: light-dark(#eaeaea, #666);
+  background: light-dark(#eaeaea, #666);
 }

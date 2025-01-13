@@ -62,6 +62,10 @@ To manage your Harvest timers:
 1. Add your Harvest API Token and Harvest Account ID in the settings view.
 2. Once configured, you’ll see a list of your Harvest projects on the home view (click the back arrow). Select a project to view its tasks.
 3. Start or stop timers by clicking on any task.
+4. To add a note to a timer:
+   - Hover over a timer and click the note button that appears.
+   - In the modal, enter your note and click Start Timer.
+
 
 ### Jira Integration
 

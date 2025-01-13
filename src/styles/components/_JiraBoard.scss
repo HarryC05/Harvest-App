@@ -2,77 +2,77 @@
  * Jira Board
  */
 .jira-board {
-	background-color: light-dark(#f5f5f5, #333);
-	border-radius: 5px;
-	padding: 1rem;
+  background-color: light-dark(#f5f5f5, #333);
+  border-radius: 5px;
+  padding: 1rem;
 }
 
 /* Set the top left corner to have no radius if the first tab is selected */
 .jira-boards:has(> .tabs > .tab.selected:first-child) .jira-board {
-	border-top-left-radius: 0;
+  border-top-left-radius: 0;
 }
 
 /**
  * Jira Board Columns
  */
 .jira-board .jira-columns {
-	display: grid;
-	gap: 0.5rem;
-	list-style: none;
-	overflow: scroll;
-	padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  overflow: scroll;
+  padding: 0;
 }
 
 .jira-board .jira-columns > li.jira-column {
-	background-color: light-dark(#eaeaea, #666);
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	max-height: 80vh;
-	overflow: scroll;
-	padding: 1rem;
+  background-color: light-dark(#eaeaea, #666);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 80vh;
+  overflow: scroll;
+  padding: 1rem;
 }
 
 .jira-board .jira-columns > li.jira-column h4 {
-	margin: 0;
+  margin: 0;
 }
 
 /**
  * Board Header
  */
 .jira-board .jira-board-header {
-	align-items: center;
-	display: flex;
-	gap: 1rem;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
 }
 
 /* Sprint Indicator */
 .jira-board .jira-sprint-indicator {
-	cursor: default;
-	margin-left: 0.25rem;
+  cursor: default;
+  margin-left: 0.25rem;
 }
 
 .jira-board .jira-sprint-indicator.active {
-	color: #32cd32;
+  color: #32cd32;
 }
 
 .jira-board .jira-sprint-indicator.inactive {
-	color: #f00;
+  color: #f00;
 }
 
 /* Assignee */
 .jira-board .jira-board-assignee {
-	display: flex;
-	gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 /* Reload Button */
 .jira-board .jira-board-refresh-btn {
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-size: 1.5rem;
-	padding: 0;
-	rotate: 45deg;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  rotate: 45deg;
 }

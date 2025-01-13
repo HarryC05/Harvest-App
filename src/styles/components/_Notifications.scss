@@ -1,5 +1,5 @@
 /**
- * Notificaitons
+ * Notifications
  */
 
 .notifications {
@@ -10,52 +10,4 @@
   position: absolute;
   width: 100%;
   z-index: 999;
-}
-
-.notification {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-}
-
-.notification button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  padding: 0;
-}
-
-.notification button svg {
-  padding: 0.25rem;
-}
-
-.notification .notification-message {
-  display: flex;
-  gap: 1rem;
-}
-
-.notification-success {
-  background: light-dark(#d4edda, #74ca89);
-  border-left: #37914c 7px solid;
-  color: #000;
-}
-
-.notification-error {
-  background: light-dark(#f8d7da, #fa9ca4);
-  border-left: #dc3545 7px solid;
-  color: #000;
-}
-
-.notification-warning {
-  background: light-dark(#fff3cd, #f2d67a);
-  border-left: #ffc107 7px solid;
-  color: #000;
-}
-
-.notification-info {
-  background: light-dark(#cce5ff, #86bff9);
-  border-left: #1976d2 7px solid;
-  color: #000;
 }

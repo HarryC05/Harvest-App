@@ -1,38 +1,38 @@
 /**
- * Projects
+ * Projects List
  */
 
 .projects-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   list-style-type: none;
-}
 
-.project {
-  align-items: center;
-  border: 1px solid light-dark(#eaeaea, #666);
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0.5rem;
-  position: relative;
-  transition: all 0.3s;
-}
+  .project {
+    align-items: center;
+    border: 1px solid light-dark(#eaeaea, #666);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0.5rem;
+    position: relative;
+    transition: all 0.3s;
 
-.project button.project-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 1.25rem;
-  width: 100%;
-}
+    button.project-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1.25rem;
+      width: 100%;
+    }
 
-.project button.fav-button {
-  background: none;
-  border: none;
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
+    button.fav-button {
+      background: none;
+      border: none;
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+  }
 }

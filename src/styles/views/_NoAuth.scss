@@ -8,16 +8,16 @@
   height: 100vh;
   justify-content: center;
   text-align: center;
-}
 
-.noAuth button {
-  background: none;
-  border: 1px solid light-dark(#000, #fff);
-  border-radius: 999px;
-  cursor: pointer;
-  padding: 1rem;
-}
+  button {
+    background: none;
+    border: 1px solid light-dark(#000, #fff);
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 1rem;
 
-.noAuth button h3 {
-  margin: 0;
+    h3 {
+      margin: 0;
+    }
+  }
 }

@@ -7,106 +7,109 @@
   padding: 0;
 }
 
+/**
+ * Ticket Card
+ */
 .jira-board .jira-ticket-card {
   background-color: light-dark(#f5f5f5, #777);
-  border: light-dark(#f5f5f5, #999) 1px solid;
+  border: light-dark(#e5e5e5, #999) 1px solid;
   border-radius: 5px;
   color: light-dark(#000, #fff);
   margin-bottom: 0.5rem;
   overflow-wrap: anywhere;
   padding: 0.75rem;
   position: relative;
-}
 
-/* Jira Timer Button */
-.jira-board .jira-ticket-card .jira-ticket-timerBtn {
-  background: #333;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: none;
-  font-size: 1rem;
-  position: absolute;
-  right: 1rem;
-}
+  /* Jira Timer Button */
+  .jira-ticket-timerBtn {
+    background: light-dark(#e5e5e5, #333);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+    font-size: 1rem;
+    position: absolute;
+    right: 1rem;
+  }
 
-.jira-board .jira-ticket-card:hover .jira-ticket-timerBtn {
-  display: block;
-}
+  &:hover .jira-ticket-timerBtn {
+    display: block;
+  }
 
-/* Jira Key */
-.jira-board .jira-ticket-card .jira-ticket-key {
-  background: #333;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-}
+  /* Jira Key */
+  .jira-ticket-key {
+    background: #333;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
 
-/* Jira Title */
-.jira-board .jira-ticket-card .jira-ticket-title {
-  margin: 0.5rem 0;
-}
+  /* Jira Title */
+  .jira-ticket-title {
+    margin: 0.5rem 0;
+  }
 
-/* Jira Footer */
-.jira-board .jira-ticket-card .jira-ticket-footer {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 0.25rem;
-}
+  /* Jira Footer */
+  .jira-ticket-footer {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.25rem;
+  }
 
-/* Jira Assignee */
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-ticket-assignee {
-  align-items: center;
-  display: flex;
-  font-size: 0.8rem;
-  font-weight: bold;
-  gap: 0.5rem;
-}
+  /* Jira Assignee */
+  .jira-ticket-footer .jira-ticket-assignee {
+    align-items: center;
+    display: flex;
+    font-size: 0.8rem;
+    font-weight: bold;
+    gap: 0.5rem;
+  }
 
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-ticket-assignee img {
-  border-radius: 999px;
-  width: 2rem;
-}
+  .jira-ticket-footer .jira-ticket-assignee img {
+    border-radius: 999px;
+    width: 2rem;
+  }
 
-/* Jira Priority Symbols */
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-1 {
-  align-self: end;
-  color: #dc143c;
-  font-size: 1.5rem;
-  transform: rotate(90deg);
-  width: fit-content;
-}
+  /* Jira Priority Symbols */
+  .jira-ticket-footer .jira-priority-1 {
+    align-self: end;
+    color: #dc143c;
+    font-size: 1.5rem;
+    transform: rotate(90deg);
+    width: fit-content;
+  }
 
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-2 {
-  align-self: end;
-  color: #e15a75;
-  font-size: 1.5rem;
-  transform: rotate(90deg);
-  width: fit-content;
-}
+  .jira-ticket-footer .jira-priority-2 {
+    align-self: end;
+    color: #e15a75;
+    font-size: 1.5rem;
+    transform: rotate(90deg);
+    width: fit-content;
+  }
 
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-3 {
-  align-self: end;
-  color: #f5b236;
-  font-size: 1.5rem;
-  transform: rotate(90deg);
-  width: fit-content;
-}
+  .jira-ticket-footer .jira-priority-3 {
+    align-self: end;
+    color: #f5b236;
+    font-size: 1.5rem;
+    transform: rotate(90deg);
+    width: fit-content;
+  }
 
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-4 {
-  align-self: end;
-  color: #6d9bd2;
-  font-size: 1.5rem;
-  transform: rotate(90deg);
-  width: fit-content;
-}
+  .jira-ticket-footer .jira-priority-4 {
+    align-self: end;
+    color: #6d9bd2;
+    font-size: 1.5rem;
+    transform: rotate(90deg);
+    width: fit-content;
+  }
 
-.jira-board .jira-ticket-card .jira-ticket-footer .jira-priority-5 {
-  align-self: end;
-  color: #106cdc;
-  font-size: 1.5rem;
-  transform: rotate(90deg);
-  width: fit-content;
+  .jira-ticket-footer .jira-priority-5 {
+    align-self: end;
+    color: #106cdc;
+    font-size: 1.5rem;
+    transform: rotate(90deg);
+    width: fit-content;
+  }
 }

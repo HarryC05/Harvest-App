@@ -8,43 +8,43 @@
   gap: 1rem;
   list-style: none;
   width: 40%;
-}
 
-.jira-config-columns li {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+  li {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 /**
  * Jira Board Config
  */
 .board-config {
-  background-color: #333;
+  background-color: light-dark(#f5f5f5, #333);
   border-radius: 5px;
   padding: 1rem;
-}
 
-.board-config .columns {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  list-style: none;
-  min-width: 40%;
-  padding: 0 1rem;
-  width: fit-content;
-}
+  .columns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+    min-width: 40%;
+    padding: 0 1rem;
+    width: fit-content;
 
-.board-config .columns li {
-  border-bottom: #666 1px solid;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-  padding-bottom: 0.5rem;
-}
+    li {
+      border-bottom: #666 1px solid;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      padding-bottom: 0.5rem;
+    }
 
-.board-config .columns li:last-child {
-  border-bottom: none;
+    li:last-child {
+      border-bottom: none;
+    }
+  }
 }
 
 .main:has(> .tabs > .tab.selected:first-child) .board-config {

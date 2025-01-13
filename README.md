@@ -73,6 +73,7 @@ Enhance functionality by integrating Jira with Harvest
 4. Access your linked Jira boards from the project view:
 5. Tabs will display each Jira board for the active sprint.
 6. Hover over a Jira ticket to reveal a stopwatch button (`⏱`). Clicking it starts a timer in Harvest, formatted as `{Ticket ID}: {Ticket Title}`.
+7. Drag and drop tickets to other columns
 
 ## Contributing
 

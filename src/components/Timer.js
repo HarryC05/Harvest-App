@@ -3,13 +3,15 @@ import { useState, useEffect } from 'react';
 /**
  * Timer component
  *
- * @param {object} props       - The props object
- * @param {string} props.start - The start time
+ * @param {object} props      - The props object
+ * @param {object} props.task - The task object
  *
  * @returns {JSX.Element} - The Timer component
  */
-const Timer = ({ start }) => {
+const Timer = ({ task }) => {
 	const [elapsedTime, setElapsedTime] = useState(0);
+
+	const { timer_started_at, hours_without_timer } = task;
 
 	/**
 	 * Format the time
@@ -26,15 +28,19 @@ const Timer = ({ start }) => {
 	};
 
 	useEffect(() => {
-		const startTime = new Date(start);
+		const startTime = new Date(timer_started_at);
 		const interval = setInterval(() => {
 			const now = new Date();
 			const elapsed = Math.floor((now - startTime) / 1000);
-			setElapsedTime(elapsed);
+			const seconds_without_timer = Math.floor(hours_without_timer * 3600);
+
+			const total = seconds_without_timer + elapsed;
+
+			setElapsedTime(total);
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [start]);
+	}, [timer_started_at, hours_without_timer]);
 
 	return <div className="timer">{formatTime(elapsedTime)}</div>;
 };

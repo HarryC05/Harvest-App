@@ -76,8 +76,6 @@ const JiraColumn = ({
 			return;
 		}
 
-		console.log('Moving ticket', ticket.key, 'to', column.name);
-
 		const response = await postMoveTicket(ticket.id, transition.id, board.info);
 
 		if (!response.ok) {

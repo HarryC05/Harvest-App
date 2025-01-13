@@ -1,12 +1,3 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: "[BUG]"
-labels: bug
-assignees: ''
-
----
-
 ## Description
 
 <!-- Give a brief description of the issue you are reporting -->
@@ -40,4 +31,4 @@ Reproduction rate: /5
 
 - OS: 
 - Browser: 
-- Version:
+- Version: 

@@ -25,6 +25,6 @@ Fixes/Closes #
 <!-- Provide screenshots/screen recordings of your PR working -->
 
 ## Checklist
-- [ ] I have tested this change and ot works as expected.
+- [ ] I have tested this change and to works as expected.
 - [ ] I have added/updated documentation where required.
 - [ ] I have run `yarn lint` to ensure code quality.

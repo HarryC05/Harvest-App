@@ -7,10 +7,10 @@
   align-items: center;
   display: flex;
   gap: 1rem;
-}
 
-.profile-info-heading img {
-  border-radius: 999px;
+  img {
+    border-radius: 999px;
+  }
 }
 
 /* Profile Info */
@@ -19,19 +19,20 @@
   display: grid;
   gap: 2rem;
   grid-template-columns: 1fr 1fr;
+
+  h3 {
+    grid-column: span 2;
+  }
+
+  .profile-info-input {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 25% 1fr;
+  }
+
+  .profile-info input {
+    height: 1.5rem;
+  }
 }
 
-.profile-info h3 {
-  grid-column: span 2;
-}
-
-.profile-info-input {
-  align-items: center;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 25% 1fr;
-}
-
-.profile-info input {
-  height: 1.5rem;
-}

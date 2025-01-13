@@ -1,20 +1,24 @@
+/**
+ * TokenInput component styles
+ */
 .token-input {
   align-items: center;
   display: flex;
+
+  input.token-input-field {
+    flex: 1;
+  }
+
+  button.show-token {
+    align-self: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+
+    svg path {
+      fill: light-dark(#000, #fff);
+    }
+  }
 }
 
-.token-input input.token-input-field {
-  flex: 1;
-}
-
-.token-input button.show-token {
-  align-self: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-}
-
-.token-input button.show-token svg path {
-  fill: light-dark(#000, #fff);
-}

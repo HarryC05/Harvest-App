@@ -53,6 +53,7 @@ const App = () => {
 			timer_started_at: latest.timer_started_at,
 			hours: latest.hours,
 			notes: latest.notes,
+			hours_without_timer: latest.hours_without_timer,
 		});
 	};
 

@@ -73,7 +73,7 @@ const HarvestTask = ({ task, runningTask, onTaskClick, projectData }) => {
 				{runningTask &&
 					runningTask.task_id === task.task.id &&
 					runningTask.project_id === projectData.project.id && (
-						<Timer start={runningTask.timer_started_at} />
+						<Timer task={runningTask} />
 					)}
 			</li>
 		</>

@@ -343,3 +343,76 @@ export const getSprintTickets = async (sprintId, { token, email, url }) => {
 
 	return response;
 };
+
+/**
+ * Fetch the ticket transitions from the Jira API
+ *
+ * @param {number} ticketId   - The ticket ID
+ * @param {object} auth       - The object containing the authentication data
+ * @param {string} auth.token - The Jira API token
+ * @param {string} auth.email - The Jira API email
+ * @param {string} auth.url   - The Jira API URL
+ *
+ * @returns {Promise} response - The response object
+ */
+export const getTicketTransitions = async (ticketId, { token, email, url }) => {
+	if (!token || !email || !url) {
+		return [];
+	}
+
+	const header = {
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : '',
+	};
+
+	const response = await fetch(`/rest/api/3/issue/${ticketId}/transitions`, {
+		method: 'GET',
+		headers: header,
+	});
+
+	return response;
+};
+
+/**
+ * Move a ticket to a new column
+ *
+ * @param {number} ticketId     - The ticket object
+ * @param {number} transitionId - The target column object
+ * @param {object} auth         - The object containing the authentication data
+ * @param {string} auth.token   - The Jira API token
+ * @param {string} auth.email   - The Jira API email
+ * @param {string} auth.url     - The Jira API URL
+ *
+ * @returns {Promise} response - The response object
+ */
+export const postMoveTicket = async (
+	ticketId,
+	transitionId,
+	{ token, email, url }
+) => {
+	if (!token || !email || !url) {
+		return [];
+	}
+
+	const header = {
+		Authorization: `Basic ${btoa(`${email}:${token}`)}`,
+		'Content-Type': 'application/json',
+		'User-Agent': 'JIRA API Example',
+		'X-Target-URL': url ? `${url}/rest` : '',
+		'X-Atlassian-Token': 'no-check',
+	};
+
+	const body = JSON.stringify({
+		transition: { id: parseInt(transitionId) },
+	});
+
+	const response = await fetch(`/rest/api/3/issue/${ticketId}/transitions`, {
+		method: 'POST',
+		headers: header,
+		body,
+	});
+
+	return response;
+};

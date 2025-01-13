@@ -1,3 +1,5 @@
+import { useDrag } from 'react-dnd';
+
 import { UnassignedIcon } from './icons';
 
 /**
@@ -17,6 +19,15 @@ const JiraTicket = ({ ticket, key, startTimer, column, board }) => {
 		JSON.parse(localStorage.getItem('linkedHarvestTasks'))?.[
 			`${board.name}-${board.id}`
 		] || {};
+
+	const [{ isDragging }, drag] = useDrag(() => ({
+		type: 'TICKET',
+		item: { ticket, column },
+		// eslint-disable-next-line jsdoc/require-jsdoc
+		collect: (monitor) => ({
+			isDragging: !!monitor.isDragging(),
+		}),
+	}));
 
 	/**
 	 * Handle the timer button click
@@ -40,7 +51,15 @@ const JiraTicket = ({ ticket, key, startTimer, column, board }) => {
 	};
 
 	return (
-		<li key={key} className="jira-ticket-card">
+		<li
+			key={key}
+			className="jira-ticket-card"
+			ref={drag}
+			style={{
+				opacity: isDragging ? 0.5 : 1,
+				cursor: 'move',
+			}}
+		>
 			<button
 				className="jira-ticket-timerBtn"
 				title="Start Timer"

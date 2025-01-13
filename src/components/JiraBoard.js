@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 import {
 	getCurrentSprint,
 	getJiraColumns,
 	getSprintTickets,
+	getTicketTransitions,
 } from '../utils/api';
-import JiraTicket from './JiraTicket';
 import Spinner from './Spinner';
+import JiraColumn from './JiraColumn';
 
 /**
  * The Jira Board component
@@ -16,7 +20,7 @@ import Spinner from './Spinner';
  * @param {Function} props.setNotificationsList - The function to set the notifications list
  * @param {Function} props.startTimer           - The function to start the timer
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The Jira Board component
  */
 const JiraBoard = ({
 	board,
@@ -30,6 +34,7 @@ const JiraBoard = ({
 	const [assignee, setAssignee] = useState('all');
 	const [assigneeOptions, setAssigneeOptions] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [columnTransitions, setColumnTransitions] = useState([]);
 
 	const boardRef = useRef(board);
 
@@ -161,6 +166,36 @@ const JiraBoard = ({
 
 		setAssigneeOptions(tempAssigneeOptions);
 
+		if (columnTransitions.length > 0) {
+			setLoading(false);
+			return;
+		}
+
+		// set the column transitions
+		const columnTransitionsResp = await getTicketTransitions(
+			ticketsJSON.issues[0].id,
+			boardRef.current.info
+		);
+
+		// check if the response has an error
+		if (!columnTransitionsResp.ok) {
+			// show error message
+			setNotificationsList([
+				...notificationsList,
+				{
+					type: 'error',
+					message: `Error getting ticket transitions for ${boardRef.current.name}`,
+					id: 'error-getting-ticket-transitions',
+					disappearTime: 3000,
+				},
+			]);
+			return;
+		}
+
+		const columnTransitionsJSON = await columnTransitionsResp.json();
+
+		setColumnTransitions(columnTransitionsJSON.transitions);
+
 		setLoading(false);
 	};
 
@@ -185,7 +220,9 @@ const JiraBoard = ({
 
 	useEffect(() => {
 		/**
+		 * Poll the tickets every 15 seconds
 		 *
+		 * @returns {void}
 		 */
 		const pollTickets = async () => {
 			await fetchTickets();
@@ -205,76 +242,64 @@ const JiraBoard = ({
 	}, [board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div className="jira-board">
-			<div className="jira-board-header">
-				<p className="jira-board-sprint">
-					<strong>Sprint:</strong> {currentSprint?.name}
-					<span
-						className={`jira-sprint-indicator ${currentSprint?.state}`}
-						title={`Sprint ${currentSprint?.state}`}
+		<DndProvider backend={HTML5Backend}>
+			<div className="jira-board">
+				<div className="jira-board-header">
+					<p className="jira-board-sprint">
+						<strong>Sprint:</strong> {currentSprint?.name}
+						<span
+							className={`jira-sprint-indicator ${currentSprint?.state}`}
+							title={`Sprint ${currentSprint?.state}`}
+						>
+							⦿
+						</span>
+					</p>
+					<div className="jira-board-assignee">
+						<label htmlFor="jira-assignee">
+							<strong>Assignee:</strong>
+						</label>
+						<select
+							id="jira-assignee"
+							value={assignee}
+							onChange={(e) => setAssignee(e.target.value)}
+						>
+							{Object.keys(assigneeOptions).map((key) => (
+								<option key={key} value={key}>
+									{assigneeOptions[key]}
+								</option>
+							))}
+						</select>
+					</div>
+					<button
+						onClick={reloadTickets}
+						className="jira-board-refresh-btn"
+						title="Reload tickets"
 					>
-						⦿
-					</span>
-				</p>
-				<div className="jira-board-assignee">
-					<label htmlFor="jira-assignee">
-						<strong>Assignee:</strong>
-					</label>
-					<select
-						id="jira-assignee"
-						value={assignee}
-						onChange={(e) => setAssignee(e.target.value)}
-					>
-						{Object.keys(assigneeOptions).map((key) => (
-							<option key={key} value={key}>
-								{assigneeOptions[key]}
-							</option>
-						))}
-					</select>
+						↻
+					</button>
+					{loading && <Spinner />}
 				</div>
-				<button
-					onClick={reloadTickets}
-					className="jira-board-refresh-btn"
-					title="Reload tickets"
+				<ul
+					className="jira-columns"
+					style={{ gridTemplateColumns: `repeat(${columns.length}, 19%)` }}
 				>
-					↻
-				</button>
-				{loading && <Spinner />}
+					{columns.map((column, index) => (
+						<JiraColumn
+							column={column}
+							tickets={tickets}
+							startTimer={startTimer}
+							board={board}
+							assignee={assignee}
+							key={index}
+							columnTransitions={columnTransitions}
+							fetchTickets={fetchTickets}
+							notificationsList={notificationsList}
+							setNotificationsList={setNotificationsList}
+						/>
+					))}
+				</ul>
 			</div>
-			<ul
-				className="jira-columns"
-				style={{ gridTemplateColumns: `repeat(${columns.length}, 19%)` }}
-			>
-				{columns.map((column, index) => (
-					<li key={index} className="jira-column">
-						<h4>{column.name}</h4>
-						<ul className="jira-tickets">
-							{tickets
-								.filter(
-									(ticket) =>
-										assignee === 'all' ||
-										ticket.fields.assignee?.emailAddress === assignee ||
-										(assignee === 'unassigned' && !ticket.fields.assignee)
-								)
-								.filter((ticket) =>
-									column.statuses.some(
-										(status) => status.id === ticket.fields.status.id
-									)
-								)
-								.map((ticket, i) => (
-									<JiraTicket
-										key={i}
-										ticket={ticket}
-										startTimer={startTimer}
-										column={column}
-										board={board}
-									/>
-								))}
-						</ul>
-					</li>
-				))}
-			</ul>
-		</div>
+		</DndProvider>
 	);
 };
 

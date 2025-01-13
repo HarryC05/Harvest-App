@@ -3,16 +3,16 @@
  */
 
  .task {
-	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	padding: 1.25rem;
-	margin: 0.5rem;
 	border: 1px solid light-dark(#eaeaea, #666);
 	border-radius: 10px;
-	transition: all 0.3s;
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0.5rem;
+	padding: 1.25rem;
+	transition: all 0.3s;
 }
 
 .task-wrapper {
@@ -27,10 +27,10 @@
 
  .jira-current-sprint {
 	display: grid;
-	list-style: none;
-	padding: 0;
-	overflow: scroll;
 	gap: 0.5rem;
+	list-style: none;
+	overflow: scroll;
+	padding: 0;
 }
 
 .jira-current-sprint>li {
@@ -49,85 +49,85 @@
 }
 
 .jira-current-sprint-column li.task {
+	align-items: normal;
 	background-color: light-dark(#fff, #121212);
 	border-color: light-dark(#eaeaea, #666);
-	align-items: normal;
-	padding: 0.75rem;
 	overflow-wrap: anywhere;
+	padding: 0.75rem;
 }
 
 .jira-current-sprint-column li.task .jira-ticket-key {
-	font-size: 0.75rem;
 	background: #333;
-	color: #fff;
-	width: max-content;
-	padding: 0.25rem 0.5rem;
 	border-radius: 999px;
+	color: #fff;
+	font-size: 0.75rem;
 	margin-bottom: 0.25rem;
+	padding: 0.25rem 0.5rem;
+	width: max-content;
 }
 
 .jira-current-sprint-column li.task .jira-ticket-footer {
-	display: flex;
 	align-items: center;
+	display: flex;
 	justify-content: space-between;
 	padding-top: 0.25rem;
 }
 
 .jira-current-sprint-column li.task .jira-ticket-assignee {
-	display: flex;
 	align-items: center;
+	display: flex;
 	gap: 0.5rem;
 }
 
 .jira-current-sprint-column li.task .jira-ticket-assignee img {
-	width: 2rem;
 	border-radius: 999px;
+	width: 2rem;
 }
 
 .jira-current-sprint-column li.task .jira-priority-1 {
-	width: fit-content;
-	transform: rotate(90deg);
 	align-self: end;
-	font-size: 1.5rem;
 	color: #dc143c;
+	font-size: 1.5rem;
+	transform: rotate(90deg);
+	width: fit-content;
 }
 
 .jira-current-sprint-column li.task .jira-priority-2 {
-	width: fit-content;
-	transform: rotate(90deg);
 	align-self: end;
-	font-size: 1.5rem;
 	color: #e15a75;
+	font-size: 1.5rem;
+	transform: rotate(90deg);
+	width: fit-content;
 }
 
 .jira-current-sprint-column li.task .jira-priority-3 {
-	width: fit-content;
-	transform: rotate(90deg);
 	align-self: end;
-	font-size: 1.5rem;
 	color: #f5b236;
+	font-size: 1.5rem;
+	transform: rotate(90deg);
+	width: fit-content;
 }
 
 .jira-current-sprint-column li.task .jira-priority-4 {
-	width: fit-content;
-	transform: rotate(90deg);
 	align-self: end;
-	font-size: 1.5rem;
 	color: #6d9bd2;
+	font-size: 1.5rem;
+	transform: rotate(90deg);
+	width: fit-content;
 }
 
 .jira-current-sprint-column li.task .jira-priority-5 {
-	width: fit-content;
-	transform: rotate(90deg);
 	align-self: end;
-	font-size: 1.5rem;
 	color: #106cdc;
+	font-size: 1.5rem;
+	transform: rotate(90deg);
+	width: fit-content;
 }
 
 .jira-current-sprint-header {
+	align-items: center;
 	display: flex;
 	gap: 1rem;
-	align-items: center;
 }
 
 .jira-current-sprint-header h3 {
@@ -138,13 +138,13 @@
 	background: none;
 	border: none;
 	cursor: pointer;
-	padding: 0;
 	font-size: 1.5rem;
+	padding: 0;
 	rotate: 45deg;
 }
 
 .jira-current-sprint-assignee {
-	display: flex;
 	align-items: center;
+	display: flex;
 	gap: 0.5rem;
 }

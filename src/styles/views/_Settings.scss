@@ -7,8 +7,8 @@
 
 #settings .main {
 	display: grid;
-	grid-template-columns: 50% 50%;
 	gap: 2rem;
+	grid-template-columns: 50% 50%;
 	margin-bottom: 3rem;
 }
 
@@ -19,28 +19,28 @@
 }
 
 #settings ul.project-list li {
-	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	display: flex;
 	gap: 0.5rem;
+	justify-content: space-between;
 }
 
 /* Profile Styles */
 .jira-profile-list {
-	list-style: none;
+	align-items: center;
 	display: flex;
 	gap: 1rem;
-	align-items: center;
+	list-style: none;
 	padding: 0;
 }
 
 .profile-btn {
-	display: grid;
+	align-items: center;
 	background: none;
 	border: none;
-	gap: 0.25rem;
-	align-items: center;
 	cursor: pointer;
+	display: grid;
+	gap: 0.25rem;
 	justify-content: center;
 }
 

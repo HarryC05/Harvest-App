@@ -21,6 +21,8 @@ module.exports = function(app) {
 			on: {
 				// Log the details of the request being proxied
 				proxyReq: (proxyReq, req, res) => {
+					// set the User-Agent
+					proxyReq.setHeader('User-Agent', 'Harvest App');
 					debug(`[PROXY] Proxying request to target: ${proxyReq.method} ${proxyReq.path}`);
 					debug(`[PROXY] Proxying request headers:`, proxyReq._headers);
 					debug(`[PROXY] ${proxyReq.method} ${proxyReq.path} ~> ${proxyReq.agent.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`);

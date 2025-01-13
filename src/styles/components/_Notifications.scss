@@ -13,18 +13,18 @@
 }
 
 .notification {
-	display: flex;
 	align-items: center;
+	display: flex;
 	justify-content: space-between;
 	padding: 0 1rem;
 }
 
 .notification button {
-	padding: 0;
-	border: none;
 	background: none;
-	display: flex;
+	border: none;
 	cursor: pointer;
+	display: flex;
+	padding: 0;
 }
 
 .notification button svg {

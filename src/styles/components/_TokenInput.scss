@@ -1,6 +1,6 @@
 .token-input {
-	display: flex;
 	align-items: center;
+	display: flex;
 }
 
 .token-input input.token-input-field {
@@ -8,11 +8,11 @@
 }
 
 .token-input button.show-token {
-	display: flex;
 	align-self: center;
 	background: none;
 	border: none;
 	cursor: pointer;
+	display: flex;
 }
 
 .token-input button.show-token svg path {

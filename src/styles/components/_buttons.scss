@@ -11,12 +11,12 @@
 }
 
 .save-btn {
-	font-size: inherit;
 	background: none;
-	border-radius: 999px;
-	padding: 0.5rem;
 	border: light-dark(#000, #fff) 3px solid;
-	margin-top: 0.5rem;
+	border-radius: 999px;
 	cursor: pointer;
+	font-size: inherit;
 	grid-column: 1 / span 2;
+	margin-top: 0.5rem;
+	padding: 0.5rem;
 }

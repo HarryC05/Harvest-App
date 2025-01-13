@@ -4,15 +4,22 @@ import { useState } from 'react';
  * The view element to display all the Harvest projects
  *
  * @param {object}   props                    - The props object
- * @param {array}    props.projects           - The array of Harvest projects
- * @param {function} props.setSelectedProject - The function to set the selected project
- * @param {function} props.setCurrentView     - The function to set the current view
- * @param {function} props.setPreviousView    - The function to set the previous view (used for the back button)
+ * @param {Array}    props.projects           - The array of Harvest projects
+ * @param {Function} props.setSelectedProject - The function to set the selected project
+ * @param {Function} props.setCurrentView     - The function to set the current view
+ * @param {Function} props.setPreviousView    - The function to set the previous view (used for the back button)
  *
- * @returns {JSX.Element}
+ * @returns {JSX.Element} - The ProjectList view element
  */
-const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviousView } ) => {
-	const [ favourites, setFavourites ] = useState(JSON.parse(localStorage.getItem('favourites')) || []);
+const ProjectList = ({
+	projects,
+	setSelectedProject,
+	setCurrentView,
+	setPreviousView,
+}) => {
+	const [favourites, setFavourites] = useState(
+		JSON.parse(localStorage.getItem('favourites')) || []
+	);
 
 	/**
 	 * Favourite a project
@@ -24,13 +31,13 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 	const favourite = (id) => {
 		let favs = JSON.parse(localStorage.getItem('favourites')) || [];
 		if (favs.includes(id)) {
-			favs = favs.filter(fav => fav !== id);
+			favs = favs.filter((fav) => fav !== id);
 		} else {
 			favs.push(id);
 		}
 		localStorage.setItem('favourites', JSON.stringify(favs));
 		setFavourites(favs);
-	}
+	};
 
 	return (
 		<div>
@@ -48,14 +55,13 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 			{favourites.length > 0 && (
 				<>
 					<h2>Favourites</h2>
-					<ul className='projects-wrapper'>
+					<ul className="projects-wrapper">
 						{favourites.map((fav) => {
-							const project = projects.find(project => project.project.id === fav);
+							const project = projects.find(
+								(project) => project.project.id === fav
+							);
 							return (
-								<li
-									key={project.project.id}
-									className='project'
-								>
+								<li key={project.project.id} className="project">
 									<button
 										className="project-button"
 										onClick={() => {
@@ -72,23 +78,20 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 										★
 									</button>
 								</li>
-							)
+							);
 						})}
 					</ul>
-					<hr/>
+					<hr />
 				</>
 			)}
-			<ul className='projects-wrapper'>
+			<ul className="projects-wrapper">
 				{projects.map((project) => {
 					if (favourites.includes(project.project.id)) {
 						return null;
 					}
 
 					return (
-						<li
-							key={project.project.id}
-							className='project'
-						>
+						<li key={project.project.id} className="project">
 							<button
 								className="project-button"
 								onClick={() => {
@@ -101,13 +104,15 @@ const ProjectList = ( { projects, setSelectedProject, setCurrentView, setPreviou
 							<button
 								className="fav-button"
 								onClick={() => favourite(project.project.id)}
-							>☆</button>
+							>
+								☆
+							</button>
 						</li>
-					)
+					);
 				})}
 			</ul>
 		</div>
-	)
-}
+	);
+};
 
 export default ProjectList;

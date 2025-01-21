@@ -42,7 +42,6 @@ const HarvestTask = ({ task, runningTask, onTaskClick, projectData }) => {
 						id={`note-${task.task.id}-${projectData.project.id}`}
 						name={`note-${task.task.id}-${projectData.project.id}`}
 						rows="4"
-						// cols="50"
 						placeholder="Enter a note..."
 					/>
 				</div>

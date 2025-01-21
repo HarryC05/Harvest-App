@@ -88,13 +88,25 @@ const HarvestProject = ({
 	 * @returns {void}
 	 */
 	const onTaskClick = async (task, note = null, jiraTask = false) => {
+		// If the same task is already running and is not a Jira task, stop the timer
 		if (
 			runningTask &&
 			parseInt(runningTask.task_id) === parseInt(task.task.id) &&
 			runningTask.project_id === projectData.project.id &&
-			note === runningTask.notes &&
+			note === null &&
 			!jiraTask
 		) {
+			await stopTimer(runningTask.time_entry_id);
+			setRunningTask(null);
+			return;
+		} else if (
+			runningTask &&
+			parseInt(runningTask.task_id) === parseInt(task.task.id) &&
+			runningTask.project_id === projectData.project.id &&
+			note === runningTask.notes &&
+			jiraTask
+		) {
+			console.log('stopping timer');
 			await stopTimer(runningTask.time_entry_id);
 			setRunningTask(null);
 			return;

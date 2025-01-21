@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 const Timer = ({ task }) => {
 	const [elapsedTime, setElapsedTime] = useState(0);
 
-	const { timer_started_at, hours_without_timer } = task;
+	const { timer_started_at, hours_without_timer = 0 } = task;
 
 	/**
 	 * Format the time

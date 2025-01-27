@@ -1,0 +1,37 @@
+/**
+ * Jira Board Columns
+ */
+.jira-board .jira-columns {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  overflow: scroll;
+  padding: 0;
+
+  > li.jira-column {
+    background-color: light-dark(#eaeaea, #666);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 80vh;
+    padding: 1rem;
+
+    > ul {
+    overflow: scroll;
+    }
+  }
+
+  > li.jira-column .jira-column-header {
+    height: 1.5rem;
+
+    h4 {
+      margin: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
+}

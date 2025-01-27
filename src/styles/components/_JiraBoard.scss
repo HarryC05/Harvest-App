@@ -12,32 +12,6 @@
   border-top-left-radius: 0;
 }
 
-/**
- * Jira Board Columns
- */
-.jira-board .jira-columns {
-  display: grid;
-  gap: 0.5rem;
-  list-style: none;
-  overflow: scroll;
-  padding: 0;
-
-  > li.jira-column {
-    background-color: light-dark(#eaeaea, #666);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-height: 80vh;
-    overflow: scroll;
-    padding: 1rem;
-  }
-
-  > li.jira-column h4 {
-    margin: 0;
-  }
-}
-
 
 /**
  * Board Header
@@ -77,4 +51,3 @@
     rotate: 45deg;
   }
 }
-

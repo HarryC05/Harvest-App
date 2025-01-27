@@ -113,7 +113,9 @@ const JiraColumn = ({
 			className={`jira-column ${isOver ? 'is-over' : ''}`}
 			ref={drop}
 		>
-			<h4>{column.name}</h4>
+			<div className="jira-column-header">
+				<h4>{column.name}</h4>
+			</div>
 			<ul className="jira-tickets">
 				{tickets
 					.filter(
